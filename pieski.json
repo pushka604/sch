@@ -1,0 +1,38 @@
+[
+    {
+        "imię": "Stefek",
+        "data_urodzenia": 2006,
+        "historia_pieska": "Oddany do schroniska przez właściciela",
+        "historia_zdrowotna": "Leczenie złamanej łapki",
+        "adopcja": "wolny",
+        "daty_i_godziny": []
+    },
+    {
+        "imię": "James",
+        "data_urodzenia": 2013,
+        "historia_pieska": "Znaleziony na ulicy",
+        "historia_zdrowotna": "Zdrowy",
+        "adopcja": "zarezerwowany",
+        "daty_i_godziny": [
+            "23.23.23/23"
+        ]
+    },
+    {
+        "imię": "Łatek",
+        "data_urodzenia": 2020,
+        "historia_pieska": "Znaleziony w lesie",
+        "historia_zdrowotna": "Leczenie poparzeń",
+        "adopcja": "wolny",
+        "daty_i_godziny": [
+            "12.12.12/24"
+        ]
+    },
+    {
+        "imię": "Danonek",
+        "data_urodzenia": 1004,
+        "historia_pieska": "jest",
+        "historia_zdrowotna": "jest",
+        "adopcja": "zarezerwowany",
+        "daty_i_godziny": []
+    }
+]

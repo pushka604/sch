@@ -1,3 +1,8 @@
+import json
+
+with open('pieski.json', 'r') as file:
+    pieski = json.load(file)
+
 print('Witamy na stronie głównej schroniska "Słoneczko"!')
 print('Menu:')
 print('1 - Dane kontaktowe schroniska')
@@ -10,13 +15,6 @@ choice = int(input('Twój wybór: '))
 while choice not in [1, 2, 3, 4]:
     print('Brak dostępu do podanej funkcji')
     choice = int(input('Twój wybór: '))
-
-
-pieski = [
-        {'imię': 'Stefek', 'data urodzenia': 2006, 'historia pieska': 'Oddany do schroniska przez właściciela', 'historia zdrowotna': 'Leczenie złamanej łapki', 'adopcja': 'wolny', 'daty_i_godziny': []},
-        {'imię': 'James', 'data urodzenia': 2013, 'historia pieska': 'Znaleziony na ulicy', 'historia zdrowotna': 'Zdrowy', 'adopcja': 'zarezerwowany', 'daty_i_godziny': []},
-        {'imię': 'Łatek', 'data urodzenia': 2020, 'historia pieska': 'Znaleziony w lesie', 'historia zdrowotna': 'Leczenie poparzeń', 'adopcja': 'wolny', 'daty_i_godziny': []}
-    ]
 
 magazyn = []
 
@@ -38,9 +36,9 @@ if choice == 1:
 elif choice == 2:
     for piesek in pieski:
         print(f'\nImię: {piesek['imię']}')
-        print(f'Data urodzenia: {piesek['data urodzenia']}')
-        print(f'Historia pieska: {piesek['historia pieska']}')
-        print(f'Historia zdrowotna: {piesek['historia zdrowotna']}')
+        print(f'Data urodzenia: {piesek['data_urodzenia']}')
+        print(f'Historia pieska: {piesek['historia_pieska']}')
+        print(f'Historia zdrowotna: {piesek['historia_zdrowotna']}')
         print(f'Adopcja: {piesek['adopcja']}')
 
 elif choice == 3:
@@ -53,7 +51,7 @@ elif choice == 3:
         if wybór_pieska in imiona:
             data = str(input('Podaj datę (dzień.miesiąc.rok): '))
             godzina = str(input('Podaj godzinę: '))
-            nowa_data_i_godzina = '{data}/{godzina}'
+            nowa_data_i_godzina = data + '/' + godzina
 
             for piesek in pieski:
                 if piesek['imię'] == wybór_pieska:
@@ -75,11 +73,12 @@ elif choice == 4:
     if wybór not in [1, 2, 3]:
         print('Brak dostępu do podanej funkcji')
         wybór = int(input(('Wybierz: \n 1 - Zarządzanie magazynem \n 2 - Zarządzanie pracownikami \n 3 - Zarządzanie zwierzątkami \n')))
+
     elif wybór == 1:
-        opcje = int(input('Wybierz: \n 1 - Dodaj rzecz do magazynu \n 2 - Usuń rzecz z magazynu \n 3 - Spis rzeczy w magazynie'))
+        opcje = int(input('Wybierz: \n 1 - Dodaj rzecz do magazynu \n 2 - Usuń rzecz z magazynu \n 3 - Spis rzeczy w magazynie \n'))
         if opcje not in [1, 2, 3]:
             print('Brak dostępu do podanej funkcji')
-            opcje = int(input('Wybierz: \n 1 - Dodaj rzecz do magazynu \n 2 - Usuń rzecz z magazynu \n 3 - Spis rzeczy w magazynie'))
+            opcje = int(input('Wybierz: \n 1 - Dodaj rzecz do magazynu \n 2 - Usuń rzecz z magazynu \n 3 - Spis rzeczy w magazynie \n'))
         elif opcje == 1:
             rzecz = str(input('Jaką rzecz chcesz dodać do magazynu?: '))
             if rzecz not in magazyn:
@@ -107,4 +106,43 @@ elif choice == 4:
             for pracownik in pracownicy:
                 print(f'\nimię: {pracownik['imię']}, nazwisko: {pracownik['nazwisko']}, wynagrodzenie: {pracownik['wynagrodzenie']}')
         
-        
+    elif wybór == 3:
+        opcje = int(input('Wybierz: \n 1 - Dodaj pieska \n 2 - Usuń pieska \n 3 - Zmień stan adopcji \n'))
+        if opcje not in [1, 2, 3]:
+            print('Brak dostępu do podanej funkcji')
+            opcje = int(input('Wybierz: \n 1 - Dodaj pieska \n 2 - Usuń pieska \n 3 - Zmień stan adopcji \n'))
+        elif opcje == 1:
+            imię = str(input('Podaj imię pieska: '))
+            data_urodzenia = int(input('Podaj datę urodzenia pieska: '))
+            historia_pieska = str(input('Podaj historię pieska: '))
+            historia_zdrowotna = str(input('Podaj historię zdrowotną pieska: '))
+            adopcja = str(input('Podaj stan adopcji (wolny/zarezerwowany): '))
+            nowy_piesek = {
+                'imię': imię,
+                'data_urodzenia': data_urodzenia,
+                'historia_pieska': historia_pieska,
+                'historia_zdrowotna': historia_zdrowotna,
+                'adopcja': 'wolny',
+                'daty_i_godziny': []
+            }
+            pieski.append(nowy_piesek)
+            print(f'Dodano pieska: {imię}')
+        elif opcje == 2:
+            imię = input('Podaj imię pieska do usunięcia: ')
+            pieski = [piesek for piesek in pieski if piesek['imię'] != imię]
+            print(f'Usunięto pieska: {imię}')
+        elif opcje == 3:
+            imię = str(input('Podaj imię pieska, którego stan adopcji chcesz zmienić: '))
+            for piesek in pieski:
+                if piesek['imię'] == imię:
+                    print(f'Obecny status pieska {piesek['imię']}: {piesek['adopcja']}')
+                    potwierdzenie = str(input('Czy na pewno chcesz zmienić stan adopcji pieska? (tak/nie): '))
+                    if potwierdzenie.lower() == 'tak':
+                        if piesek['adopcja'] == 'wolny':
+                            piesek['adopcja'] = 'zarezerwowany'
+                        else:
+                            piesek['adopcja'] = 'wolny'
+                    print(f'Stan pieska po zmianie: {piesek['adopcja']}')
+
+with open('pieski.json', 'w') as file:
+    json.dump(pieski, file, ensure_ascii=False, indent=4)
