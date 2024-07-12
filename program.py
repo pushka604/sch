@@ -3,6 +3,12 @@ import json
 with open('pieski.json', 'r') as file:
     pieski = json.load(file)
 
+with open('pracownicy.json', 'r') as file:
+    pracownicy = json.load(file)
+
+with open('magazyn.json', 'r') as file:
+    magazyn = json.load(file)
+
 print('Witamy na stronie głównej schroniska "Słoneczko"!')
 print('Menu:')
 print('1 - Dane kontaktowe schroniska')
@@ -15,14 +21,6 @@ choice = int(input('Twój wybór: '))
 while choice not in [1, 2, 3, 4]:
     print('Brak dostępu do podanej funkcji')
     choice = int(input('Twój wybór: '))
-
-magazyn = []
-
-pracownicy = [
-    {'imię': 'Florian', 'nazwisko': 'Kowalski', 'staż pracy (w latach)': 5, 'wynagrodzenie': 3500},
-    {'imię': 'Józef', 'nazwisko': 'Wierzbowski', 'staż pracy (w latach)': 0.5, 'wynagrodzenie': 3000},
-    {'imię': 'Matylda', 'nazwisko': 'Grzymała', 'staż pracy (w latach)': 3, 'wynagrodzenie': 3500}
-]
 
 if choice == 1:
     print('\n')
@@ -101,7 +99,7 @@ elif choice == 4:
                 print(f'\nimię: {pracownik['imię']}, nazwisko: {pracownik['nazwisko']}')
         if opcje == 2:
             for pracownik in pracownicy:
-                print(f'\nimię: {pracownik['imię']}, nazwisko: {pracownik['nazwisko']}, staż pracy (w latach): {pracownik['staż pracy (w latach)']}')
+                print(f'\nimię: {pracownik['imię']}, nazwisko: {pracownik['nazwisko']}, staż pracy (w latach): {pracownik['staż_pracy_(w latach)']}')
         if opcje == 3:
             for pracownik in pracownicy:
                 print(f'\nimię: {pracownik['imię']}, nazwisko: {pracownik['nazwisko']}, wynagrodzenie: {pracownik['wynagrodzenie']}')
@@ -146,3 +144,6 @@ elif choice == 4:
 
 with open('pieski.json', 'w') as file:
     json.dump(pieski, file, ensure_ascii=False, indent=4)
+
+with open('magazyn.json', 'w') as file:
+    json.dump(magazyn, file, ensure_ascii=False, indent=4)

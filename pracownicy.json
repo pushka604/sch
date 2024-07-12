@@ -1,0 +1,5 @@
+[
+    {"imię": "Florian", "nazwisko": "Kowalski", "staż_pracy_(w latach)": 5, "wynagrodzenie": 3500},
+    {"imię": "Józef", "nazwisko": "Wierzbowski", "staż_pracy_(w latach)": 0.5, "wynagrodzenie": 3000},
+    {"imię": "Matylda", "nazwisko": "Grzymała", "staż_pracy_(w latach)": 3, "wynagrodzenie": 3500}
+]
