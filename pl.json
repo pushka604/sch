@@ -1,0 +1,59 @@
+{
+    "reservation": {
+        "dog_walking_choice": "Którego pieska chciałbyś/chciałabyś wyprowadzić?",
+        "date_choice": "Podaj datę (dzień.miesiąc.rok)",
+        "time_choice": "Podaj godzinę (hh:mm)",
+        "early_date_error": "Podana data i godzina są wcześniejsze niż obecna data i godzina. Spróbuj ponownie.",
+        "invalid_date_format": "Niepoprawny format daty lub godziny. Spróbuj ponownie.",
+        "reservation_done": "Zarezerwowano spacer!",
+        "reservation_failure": "Próba rezerwacji nieudana!",
+        "no_such_dog": "Nie ma takiego pieska!",
+        "continue_question": "Czy chcesz kontynuować? (tak/nie)"
+    },
+    "contact": {
+        "address": "Adres schroniska: \n ul. Koszykowa 12 \n 15-003 Białystok \n",
+        "directory": "Nasz zarząd: \n Kierownik schroniska: \n Waldemar Kowalski \n tel.: 566 306 987 \n adres e-mail: waldemar.kowalski@gmail.com \n Zastępca kierownika: \n Barbara Orzechowska \n tel:. 543 567 890 \n adres e-mail: barbara.orzechowska@gmail.com \n Biuro: \n tel.: 540 420 456 \n adres e-mail: schronisko.słoneczko@gmail.com \n",
+        "open_hours": "Godziny otwarcia schroniska: \n poniedziałek: 8:00 - 16: 00 \n wtorek: 8:00 - 16:00 \n środa: 8:00 - 16:00 \n czwartek: 8:00 - 16:00 \n piątek: 8:00 - 16:00 \n sobota: 10:00 - 14:00"
+    },
+    "overview": {
+        "date_of_birth": "Data urodzenia",
+        "dogs_history": "Historia pieska",
+        "health_history": "Historia zdrowotna",
+        "adoption": "Adopcja"
+    },
+    "management": {
+        "menu": "Wybierz: \n 1 - Zarządzanie magazynem \n 2 - Zarządzanie pracownikami \n 3 - Zarządzanie zwierzątkami \n 4 - Powrót \n Twój wybór",
+        "menu_for_storage": "Wybierz: \n 1 - Dodaj rzecz do magazynu \n 2 - Usuń rzecz z magazynu \n 3 - Spis rzeczy w magazynie \n 4 - Powrót \n Twój wybór",
+        "add_thing_choice": "Jaką rzecz chcesz dodać do magazynu?",
+        "is_in_storage": "znajduje się już w magazynie!",
+        "remove_thing_choice": "Jaką rzecz chcesz usunąć z magazynu?",
+        "is_not_in_storage": "nie znajduje się już w magazynie!",
+        "things_in_storage": "Spis rzeczy w magazynie",
+        "menu_for_emplyees": "Wybierz: \n 1 - Pokaż imiona i nazwiska pracowników \n 2 - Pokaż staż pracy \n 3 - Pokaż wynagrodzenie \n 4 - Powrót \n Twój wybór",
+        "seniority": "staż pracy (w latach)",
+        "salary": "wynagrodzenie",
+        "menu_for_dogs": "Wybierz: \n 1 - Dodaj pieska \n 2 - Usuń pieska \n 3 - Zmień stan adopcji \n 4 - Powrót \n Twój wybór",
+        "add_give_dog_name": "Podaj imię pieska",
+        "name_error": "Niepoprawne imię. Imię powinno zawierać tylko litery i nie być puste.",
+        "give_birth_date": "'Podaj datę urodzenia pieska",
+        "birth_date_error": "Niepoprawna data urodzenia. Data powinna być w formacie dzień.miesiąc.rok i nie być późniejsza niż bieżący rok.",
+        "give_dog_history": "Podaj historię pieska",
+        "give_dog_health_history": "Podaj historię zdrowotną pieska",
+        "dog_done": "Dodano pieska",
+        "remove_dog_name": "Podaj imię pieska do usunięcia",
+        "dog_remove": "Usunięto pieska",
+        "change_adoption_dog_name": "Podaj imię pieska, którego stan adopcji chcesz zmienić",
+        "current_adoption_state": "Obecny status pieska",
+        "confirmation": "Czy na pewno chcesz zmienić stan adopcji pieska? (tak/nie)",
+        "after_change_adoption_state": "Stan pieska po zmianie"
+    },
+    "misc": {
+        "give_role": "Podaj swoją rolę (gość, wolontariusz, manager): ",
+        "greeting_menu": "Witamy na stronie głównej schroniska 'Słoneczko'! \n Menu: \n 1 - Dane kontaktowe schroniska \n 2 - Przegląd piesków \n 3 - Wyprowadzanie piesków \n 4 - Zarządzanie schroniskiem \n 5 - Zakończ program \n",
+        "your_choice": "Twój wybór",
+        "no_access": "Brak dostępu do podanej funkcji",
+        "yes": "tak",
+        "name": "Imię",
+        "surname": "nazwisko"
+    }
+}
