@@ -20,6 +20,12 @@ def validate_birth_date(birth_date):
     except ValueError:
         return False
 
+def check_access(role, access_level):
+    roles = {'gość': 1, 'wolontariusz': 2, 'manager': 3}
+    return roles.get(role, 0) >= access_level
+
+role = input('Podaj swoją rolę (gość, wolontariusz, manager): ')
+
 while True:
     print('Witamy na stronie głównej schroniska "Słoneczko"!')
     print('Menu:')
@@ -51,140 +57,146 @@ while True:
             print(f'Adopcja: {piesek['adopcja']}')
 
     elif choice == 3:
-        imiona = []
-        for piesek in pieski:
-            imiona.append(piesek['imię'])
-        while True:
-            print(f'Którego pieska chciałbyś/chciałabyś wyprowadzić? {imiona}: ')
-            wybór_pieska = str(input('Twój wybór: '))
-            if wybór_pieska in imiona:
-                while True:
-                    data = str(input('Podaj datę (dzień.miesiąc.rok): '))
-                    godzina = str(input('Podaj godzinę (hh:mm): '))
-                    try:
-                        dt = datetime.strptime(f'{data} {godzina}', '%d.%m.%Y %H:%M')
-                        teraz = datetime.now()
-                        if dt > teraz:
-                            nowa_data_i_godzina = data + '/' + godzina
+        if check_access(role, 2):
+            imiona = []
+            for piesek in pieski:
+                imiona.append(piesek['imię'])
+            while True:
+                print(f'Którego pieska chciałbyś/chciałabyś wyprowadzić? {imiona}: ')
+                wybór_pieska = str(input('Twój wybór: '))
+                if wybór_pieska in imiona:
+                    while True:
+                        data = str(input('Podaj datę (dzień.miesiąc.rok): '))
+                        godzina = str(input('Podaj godzinę (hh:mm): '))
+                        try:
+                            dt = datetime.strptime(f'{data} {godzina}', '%d.%m.%Y %H:%M')
+                            teraz = datetime.now()
+                            if dt > teraz:
+                                nowa_data_i_godzina = data + '/' + godzina
+                                break
+                            else:
+                                print('Podana data i godzina są wcześniejsze niż obecna data i godzina. Spróbuj ponownie.')
+                        except ValueError:
+                            print('Niepoprawny format daty lub godziny. Spróbuj ponownie.')
+                    for piesek in pieski:
+                        if piesek['imię'] == wybór_pieska:
+                            if nowa_data_i_godzina not in piesek['daty_i_godziny']:
+                                print('Zarezerwowano spacer!')
+                                piesek['daty_i_godziny'].append(nowa_data_i_godzina)
+                            else:
+                                print('Próba rezerwacji nieudana!')
                             break
-                        else:
-                            print('Podana data i godzina są wcześniejsze niż obecna data i godzina. Spróbuj ponownie.')
-                    except ValueError:
-                        print('Niepoprawny format daty lub godziny. Spróbuj ponownie.')
-                for piesek in pieski:
-                    if piesek['imię'] == wybór_pieska:
-                        if nowa_data_i_godzina not in piesek['daty_i_godziny']:
-                            print('Zarezerwowano spacer!')
-                            piesek['daty_i_godziny'].append(nowa_data_i_godzina)
-                        else:
-                            print('Próba rezerwacji nieudana!')
-                        break
-            else:
-                print('Nie ma takiego pieska!')
+                else:
+                    print('Nie ma takiego pieska!')
 
-            kontynuacja = input('Czy chcesz kontynuować? (tak/nie): ')
-            if kontynuacja.lower() != 'tak':
-                break
+                kontynuacja = input('Czy chcesz kontynuować? (tak/nie): ')
+                if kontynuacja.lower() != 'tak':
+                    break
+        else:
+            print('Brak dostępu do tej funkcji')            
 
     elif choice == 4:
-
-        while True:
-            wybór = int(input(('Wybierz: \n 1 - Zarządzanie magazynem \n 2 - Zarządzanie pracownikami \n 3 - Zarządzanie zwierzątkami \n 4 - Powrót \n Twój wybór: ')))
-            if wybór not in [1, 2, 3, 4]:
-                print('Brak dostępu do podanej funkcji')
+        if check_access(role, 3):
+            while True:
+                wybór = int(input(('Wybierz: \n 1 - Zarządzanie magazynem \n 2 - Zarządzanie pracownikami \n 3 - Zarządzanie zwierzątkami \n 4 - Powrót \n Twój wybór: ')))
+                if wybór not in [1, 2, 3, 4]:
+                    print('Brak dostępu do podanej funkcji')
+                    
+                elif wybór == 1:
+                    while True:
+                        opcje = int(input('Wybierz: \n 1 - Dodaj rzecz do magazynu \n 2 - Usuń rzecz z magazynu \n 3 - Spis rzeczy w magazynie \n 4 - Powrót \n Twój wybór: '))
+                        if opcje not in [1, 2, 3, 4]:
+                            print('Brak dostępu do podanej funkcji')
+                        elif opcje == 1:
+                            rzecz = str(input('Jaką rzecz chcesz dodać do magazynu?: '))
+                            if rzecz not in magazyn:
+                                magazyn.append(rzecz)
+                            else:
+                                print(f'{rzecz} znajduje się już w magazynie!')
+                        elif opcje == 2:
+                            rzecz = str(input('Jaką rzecz chcesz usunąć z magazynu?: '))
+                            if rzecz in magazyn:
+                                magazyn.remove(rzecz)
+                            else:
+                                print(f'{rzecz} nie znajduje się już w magazynie!')
+                        elif opcje == 3:
+                            print(f'Spis rzeczy w magazynie: {magazyn}')
+                        elif opcje == 4:
+                            break
                 
-            elif wybór == 1:
-                while True:
-                    opcje = int(input('Wybierz: \n 1 - Dodaj rzecz do magazynu \n 2 - Usuń rzecz z magazynu \n 3 - Spis rzeczy w magazynie \n 4 - Powrót \n Twój wybór: '))
-                    if opcje not in [1, 2, 3, 4]:
-                        print('Brak dostępu do podanej funkcji')
-                    elif opcje == 1:
-                        rzecz = str(input('Jaką rzecz chcesz dodać do magazynu?: '))
-                        if rzecz not in magazyn:
-                            magazyn.append(rzecz)
-                        else:
-                            print(f'{rzecz} znajduje się już w magazynie!')
-                    elif opcje == 2:
-                        rzecz = str(input('Jaką rzecz chcesz usunąć z magazynu?: '))
-                        if rzecz in magazyn:
-                            magazyn.remove(rzecz)
-                        else:
-                            print(f'{rzecz} nie znajduje się już w magazynie!')
-                    elif opcje == 3:
-                        print(f'Spis rzeczy w magazynie: {magazyn}')
-                    elif opcje == 4:
-                        break
-            
-            elif wybór == 2:
-                while True:
-                    opcje = int(input('Wybierz: \n 1 - Pokaż imiona i nazwiska pracowników \n 2 - Pokaż staż pracy \n 3 - Pokaż wynagrodzenie \n 4 - Powrót \n Twój wybór'))
-                    if opcje not in [1, 2, 3, 4]:
-                        print('Brak dostępu do podanej funkcji')
-                    elif opcje == 1:
-                        for pracownik in pracownicy:
-                            print(f'\nimię: {pracownik['imię']}, nazwisko: {pracownik['nazwisko']}')
-                    elif opcje == 2:
-                        for pracownik in pracownicy:
-                            print(f'\nimię: {pracownik['imię']}, nazwisko: {pracownik['nazwisko']}, staż pracy (w latach): {pracownik['staż_pracy_(w latach)']}')
-                    elif opcje == 3:
-                        for pracownik in pracownicy:
-                            print(f'\nimię: {pracownik['imię']}, nazwisko: {pracownik['nazwisko']}, wynagrodzenie: {pracownik['wynagrodzenie']}')
-                    elif opcje == 4:
-                        break
-            
-            elif wybór == 3:
-                while True:
-                    opcje = int(input('Wybierz: \n 1 - Dodaj pieska \n 2 - Usuń pieska \n 3 - Zmień stan adopcji \n 4 - Powrót \n Twój wybór: '))
-                    if opcje not in [1, 2, 3, 4]:
-                        print('Brak dostępu do podanej funkcji')
-                    elif opcje == 1:
-                        while True:
-                            imię = str(input('Podaj imię pieska: '))
-                            if validate_name(imię):
-                                break
-                            else:
-                                print('Niepoprawne imię. Imię powinno zawierać tylko litery i nie być puste.')
-                        
-                        while True:
-                            data_urodzenia = str(input('Podaj datę urodzenia pieska: '))
-                            if validate_birth_date(data_urodzenia):
-                                break
-                            else:
-                                print('Niepoprawna data urodzenia. Data powinna być w formacie dzień.miesiąc.rok i nie być późniejsza niż bieżący rok.')
-                        
-                        historia_pieska = str(input('Podaj historię pieska: '))
-                        historia_zdrowotna = str(input('Podaj historię zdrowotną pieska: '))
-                        nowy_piesek = {
-                            'imię': imię,
-                            'data_urodzenia': data_urodzenia,
-                            'historia_pieska': historia_pieska,
-                            'historia_zdrowotna': historia_zdrowotna,
-                            'adopcja': 'wolny',
-                            'daty_i_godziny': []
-                        }
-                        pieski.append(nowy_piesek)
-                        print(f'Dodano pieska: {imię}')
-                    elif opcje == 2:
-                        imię = input('Podaj imię pieska do usunięcia: ')
-                        pieski = [piesek for piesek in pieski if piesek['imię'] != imię]
-                        print(f'Usunięto pieska: {imię}')
-                    elif opcje == 3:
-                        imię = str(input('Podaj imię pieska, którego stan adopcji chcesz zmienić: '))
-                        for piesek in pieski:
-                            if piesek['imię'] == imię:
-                                print(f'Obecny status pieska {piesek['imię']}: {piesek['adopcja']}')
-                                potwierdzenie = str(input('Czy na pewno chcesz zmienić stan adopcji pieska? (tak/nie): '))
-                                if potwierdzenie.lower() == 'tak':
-                                    if piesek['adopcja'] == 'wolny':
-                                        piesek['adopcja'] = 'zarezerwowany'
-                                    else:
-                                        piesek['adopcja'] = 'wolny'
-                                print(f'Stan pieska po zmianie: {piesek['adopcja']}')
-                    elif opcje == 4:
-                        break
+                elif wybór == 2:
+                    while True:
+                        opcje = int(input('Wybierz: \n 1 - Pokaż imiona i nazwiska pracowników \n 2 - Pokaż staż pracy \n 3 - Pokaż wynagrodzenie \n 4 - Powrót \n Twój wybór'))
+                        if opcje not in [1, 2, 3, 4]:
+                            print('Brak dostępu do podanej funkcji')
+                        elif opcje == 1:
+                            for pracownik in pracownicy:
+                                print(f'\nimię: {pracownik['imię']}, nazwisko: {pracownik['nazwisko']}')
+                        elif opcje == 2:
+                            for pracownik in pracownicy:
+                                print(f'\nimię: {pracownik['imię']}, nazwisko: {pracownik['nazwisko']}, staż pracy (w latach): {pracownik['staż_pracy_(w latach)']}')
+                        elif opcje == 3:
+                            for pracownik in pracownicy:
+                                print(f'\nimię: {pracownik['imię']}, nazwisko: {pracownik['nazwisko']}, wynagrodzenie: {pracownik['wynagrodzenie']}')
+                        elif opcje == 4:
+                            break
+                
+                elif wybór == 3:
+                    while True:
+                        opcje = int(input('Wybierz: \n 1 - Dodaj pieska \n 2 - Usuń pieska \n 3 - Zmień stan adopcji \n 4 - Powrót \n Twój wybór: '))
+                        if opcje not in [1, 2, 3, 4]:
+                            print('Brak dostępu do podanej funkcji')
+                        elif opcje == 1:
+                            while True:
+                                imię = str(input('Podaj imię pieska: '))
+                                if validate_name(imię):
+                                    break
+                                else:
+                                    print('Niepoprawne imię. Imię powinno zawierać tylko litery i nie być puste.')
+                            
+                            while True:
+                                data_urodzenia = str(input('Podaj datę urodzenia pieska: '))
+                                if validate_birth_date(data_urodzenia):
+                                    break
+                                else:
+                                    print('Niepoprawna data urodzenia. Data powinna być w formacie dzień.miesiąc.rok i nie być późniejsza niż bieżący rok.')
+                            
+                            historia_pieska = str(input('Podaj historię pieska: '))
+                            historia_zdrowotna = str(input('Podaj historię zdrowotną pieska: '))
+                            nowy_piesek = {
+                                'imię': imię,
+                                'data_urodzenia': data_urodzenia,
+                                'historia_pieska': historia_pieska,
+                                'historia_zdrowotna': historia_zdrowotna,
+                                'adopcja': 'wolny',
+                                'daty_i_godziny': []
+                            }
+                            pieski.append(nowy_piesek)
+                            print(f'Dodano pieska: {imię}')
+                        elif opcje == 2:
+                            imię = input('Podaj imię pieska do usunięcia: ')
+                            pieski = [piesek for piesek in pieski if piesek['imię'] != imię]
+                            print(f'Usunięto pieska: {imię}')
+                        elif opcje == 3:
+                            imię = str(input('Podaj imię pieska, którego stan adopcji chcesz zmienić: '))
+                            for piesek in pieski:
+                                if piesek['imię'] == imię:
+                                    print(f'Obecny status pieska {piesek['imię']}: {piesek['adopcja']}')
+                                    potwierdzenie = str(input('Czy na pewno chcesz zmienić stan adopcji pieska? (tak/nie): '))
+                                    if potwierdzenie.lower() == 'tak':
+                                        if piesek['adopcja'] == 'wolny':
+                                            piesek['adopcja'] = 'zarezerwowany'
+                                        else:
+                                            piesek['adopcja'] = 'wolny'
+                                    print(f'Stan pieska po zmianie: {piesek['adopcja']}')
+                        elif opcje == 4:
+                            break
 
-            elif wybór == 4:
-                break
+                elif wybór == 4:
+                    break
+        else:
+            print('Brak dostępu do tej funkcji')      
+              
     elif choice == 5:
         with open('pieski.json', 'w') as file:
             json.dump(pieski, file, ensure_ascii=False, indent=4)
