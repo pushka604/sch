@@ -1,4 +1,5 @@
 import json
+from datetime import datetime 
 
 with open('pieski.json', 'r') as file:
     pieski = json.load(file)
@@ -8,6 +9,16 @@ with open('pracownicy.json', 'r') as file:
 
 with open('magazyn.json', 'r') as file:
     magazyn = json.load(file)
+
+def validate_name(name):
+    return name.isalpha() and len(name) > 0
+
+def validate_birth_date(birth_date):
+    try:
+        birth_date_datetime = datetime.strptime(birth_date, '%d.%m.%Y')
+        return birth_date_datetime <= datetime.now()
+    except ValueError:
+        return False
 
 while True:
     print('Witamy na stronie głównej schroniska "Słoneczko"!')
@@ -45,12 +56,21 @@ while True:
             imiona.append(piesek['imię'])
         while True:
             print(f'Którego pieska chciałbyś/chciałabyś wyprowadzić? {imiona}: ')
-            wybór_pieska = str(input())
+            wybór_pieska = str(input('Twój wybór: '))
             if wybór_pieska in imiona:
-                data = str(input('Podaj datę (dzień.miesiąc.rok): '))
-                godzina = str(input('Podaj godzinę: '))
-                nowa_data_i_godzina = data + '/' + godzina
-
+                while True:
+                    data = str(input('Podaj datę (dzień.miesiąc.rok): '))
+                    godzina = str(input('Podaj godzinę (hh:mm): '))
+                    try:
+                        dt = datetime.strptime(f'{data} {godzina}', '%d.%m.%Y %H:%M')
+                        teraz = datetime.now()
+                        if dt > teraz:
+                            nowa_data_i_godzina = data + '/' + godzina
+                            break
+                        else:
+                            print('Podana data i godzina są wcześniejsze niż obecna data i godzina. Spróbuj ponownie.')
+                    except ValueError:
+                        print('Niepoprawny format daty lub godziny. Spróbuj ponownie.')
                 for piesek in pieski:
                     if piesek['imię'] == wybór_pieska:
                         if nowa_data_i_godzina not in piesek['daty_i_godziny']:
@@ -69,13 +89,13 @@ while True:
     elif choice == 4:
 
         while True:
-            wybór = int(input(('Wybierz: \n 1 - Zarządzanie magazynem \n 2 - Zarządzanie pracownikami \n 3 - Zarządzanie zwierzątkami \n 4 - Powrót \n')))
+            wybór = int(input(('Wybierz: \n 1 - Zarządzanie magazynem \n 2 - Zarządzanie pracownikami \n 3 - Zarządzanie zwierzątkami \n 4 - Powrót \n Twój wybór: ')))
             if wybór not in [1, 2, 3, 4]:
                 print('Brak dostępu do podanej funkcji')
                 
             elif wybór == 1:
                 while True:
-                    opcje = int(input('Wybierz: \n 1 - Dodaj rzecz do magazynu \n 2 - Usuń rzecz z magazynu \n 3 - Spis rzeczy w magazynie \n 4 - Powrót \n'))
+                    opcje = int(input('Wybierz: \n 1 - Dodaj rzecz do magazynu \n 2 - Usuń rzecz z magazynu \n 3 - Spis rzeczy w magazynie \n 4 - Powrót \n Twój wybór: '))
                     if opcje not in [1, 2, 3, 4]:
                         print('Brak dostępu do podanej funkcji')
                     elif opcje == 1:
@@ -97,7 +117,7 @@ while True:
             
             elif wybór == 2:
                 while True:
-                    opcje = int(input('Wybierz: \n 1 - Pokaż imiona i nazwiska pracowników \n 2 - Pokaż staż pracy \n 3 - Pokaż wynagrodzenie \n 4 - Powrót \n'))
+                    opcje = int(input('Wybierz: \n 1 - Pokaż imiona i nazwiska pracowników \n 2 - Pokaż staż pracy \n 3 - Pokaż wynagrodzenie \n 4 - Powrót \n Twój wybór'))
                     if opcje not in [1, 2, 3, 4]:
                         print('Brak dostępu do podanej funkcji')
                     elif opcje == 1:
@@ -114,15 +134,26 @@ while True:
             
             elif wybór == 3:
                 while True:
-                    opcje = int(input('Wybierz: \n 1 - Dodaj pieska \n 2 - Usuń pieska \n 3 - Zmień stan adopcji \n 4 - Powrót \n'))
+                    opcje = int(input('Wybierz: \n 1 - Dodaj pieska \n 2 - Usuń pieska \n 3 - Zmień stan adopcji \n 4 - Powrót \n Twój wybór: '))
                     if opcje not in [1, 2, 3, 4]:
                         print('Brak dostępu do podanej funkcji')
                     elif opcje == 1:
-                        imię = str(input('Podaj imię pieska: '))
-                        data_urodzenia = int(input('Podaj datę urodzenia pieska: '))
+                        while True:
+                            imię = str(input('Podaj imię pieska: '))
+                            if validate_name(imię):
+                                break
+                            else:
+                                print('Niepoprawne imię. Imię powinno zawierać tylko litery i nie być puste.')
+                        
+                        while True:
+                            data_urodzenia = str(input('Podaj datę urodzenia pieska: '))
+                            if validate_birth_date(data_urodzenia):
+                                break
+                            else:
+                                print('Niepoprawna data urodzenia. Data powinna być w formacie dzień.miesiąc.rok i nie być późniejsza niż bieżący rok.')
+                        
                         historia_pieska = str(input('Podaj historię pieska: '))
                         historia_zdrowotna = str(input('Podaj historię zdrowotną pieska: '))
-                        adopcja = str(input('Podaj stan adopcji (wolny/zarezerwowany): '))
                         nowy_piesek = {
                             'imię': imię,
                             'data_urodzenia': data_urodzenia,
