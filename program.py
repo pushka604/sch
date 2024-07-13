@@ -1,5 +1,6 @@
 import json
 from datetime import datetime 
+from copy import deepcopy
 
 with open('pieski.json', 'r') as file:
     pieski = json.load(file)
@@ -78,11 +79,16 @@ while True:
                                 print('Podana data i godzina są wcześniejsze niż obecna data i godzina. Spróbuj ponownie.')
                         except ValueError:
                             print('Niepoprawny format daty lub godziny. Spróbuj ponownie.')
-                    for piesek in pieski:
+                    pieski_kopia = deepcopy(pieski)
+                    for piesek in pieski_kopia:
                         if piesek['imię'] == wybór_pieska:
                             if nowa_data_i_godzina not in piesek['daty_i_godziny']:
                                 print('Zarezerwowano spacer!')
                                 piesek['daty_i_godziny'].append(nowa_data_i_godzina)
+                                with open('pieski.json', 'w') as file:
+                                    json.dump(pieski_kopia, file, ensure_ascii=False, indent=4)
+                                with open('pieski.json', 'r') as file:
+                                    pieski = json.load(file)
                             else:
                                 print('Próba rezerwacji nieudana!')
                             break
@@ -110,13 +116,23 @@ while True:
                         elif opcje == 1:
                             rzecz = str(input('Jaką rzecz chcesz dodać do magazynu?: '))
                             if rzecz not in magazyn:
-                                magazyn.append(rzecz)
+                                magazyn_kopia = deepcopy(magazyn)
+                                magazyn_kopia.append(rzecz)
+                                with open('magazyn.json', 'w') as file:
+                                    json.dump(magazyn_kopia, file, ensure_ascii=False, indent=4) 
+                                with open('magazyn.json', 'r') as file:
+                                    magazyn = json.load(file)  
                             else:
                                 print(f'{rzecz} znajduje się już w magazynie!')
                         elif opcje == 2:
                             rzecz = str(input('Jaką rzecz chcesz usunąć z magazynu?: '))
                             if rzecz in magazyn:
-                                magazyn.remove(rzecz)
+                                magazyn_kopia = deepcopy(magazyn)
+                                magazyn_kopia.remove(rzecz)
+                                with open('magazyn.json', 'w') as file:
+                                    json.dump(magazyn_kopia, file, ensure_ascii=False, indent=4) 
+                                with open('magazyn.json', 'r') as file:
+                                    magazyn = json.load(file)
                             else:
                                 print(f'{rzecz} nie znajduje się już w magazynie!')
                         elif opcje == 3:
@@ -171,15 +187,26 @@ while True:
                                 'adopcja': 'wolny',
                                 'daty_i_godziny': []
                             }
-                            pieski.append(nowy_piesek)
+                            pieski_kopia = deepcopy(pieski)
+                            pieski_kopia.append(nowy_piesek)
+                            with open('pieski.json', 'w') as file:
+                                json.dump(pieski_kopia, file, ensure_ascii=False, indent=4)
+                            with open('pieski.json', 'r') as file:
+                                pieski = json.load(file)
                             print(f'Dodano pieska: {imię}')
                         elif opcje == 2:
                             imię = input('Podaj imię pieska do usunięcia: ')
-                            pieski = [piesek for piesek in pieski if piesek['imię'] != imię]
+                            pieski_kopia = deepcopy(pieski)
+                            pieski_kopia = [piesek for piesek in pieski_kopia if piesek['imię'] != imię]
+                            with open('pieski.json', 'w') as file:
+                                json.dump(pieski_kopia, file, ensure_ascii=False, indent=4)
+                            with open('pieski.json', 'r') as file:
+                                pieski = json.load(file)
                             print(f'Usunięto pieska: {imię}')
                         elif opcje == 3:
                             imię = str(input('Podaj imię pieska, którego stan adopcji chcesz zmienić: '))
-                            for piesek in pieski:
+                            pieski_kopia = deepcopy(pieski)
+                            for piesek in pieski_kopia:
                                 if piesek['imię'] == imię:
                                     print(f'Obecny status pieska {piesek['imię']}: {piesek['adopcja']}')
                                     potwierdzenie = str(input('Czy na pewno chcesz zmienić stan adopcji pieska? (tak/nie): '))
@@ -188,6 +215,10 @@ while True:
                                             piesek['adopcja'] = 'zarezerwowany'
                                         else:
                                             piesek['adopcja'] = 'wolny'
+                                        with open('pieski.json', 'w') as file:
+                                            json.dump(pieski_kopia, file, ensure_ascii=False, indent=4)
+                                        with open('pieski.json', 'r') as file:
+                                            pieski = json.load(file)
                                     print(f'Stan pieska po zmianie: {piesek['adopcja']}')
                         elif opcje == 4:
                             break
@@ -196,7 +227,7 @@ while True:
                     break
         else:
             print('Brak dostępu do tej funkcji')      
-              
+
     elif choice == 5:
         with open('pieski.json', 'w') as file:
             json.dump(pieski, file, ensure_ascii=False, indent=4)
