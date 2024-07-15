@@ -22,17 +22,17 @@
         "adoption": "Adopcja"
     },
     "management": {
-        "menu": "Wybierz: \n 1 - Zarządzanie magazynem \n 2 - Zarządzanie pracownikami \n 3 - Zarządzanie zwierzątkami \n 4 - Powrót \n Twój wybór",
-        "menu_for_storage": "Wybierz: \n 1 - Dodaj rzecz do magazynu \n 2 - Usuń rzecz z magazynu \n 3 - Spis rzeczy w magazynie \n 4 - Powrót \n Twój wybór",
+        "menu": "Wybierz: \n 1 - Zarządzanie magazynem \n 2 - Zarządzanie pracownikami \n 3 - Zarządzanie zwierzątkami \n 4 - Powrót \n",
+        "menu_for_storage": "Wybierz: \n 1 - Dodaj rzecz do magazynu \n 2 - Usuń rzecz z magazynu \n 3 - Spis rzeczy w magazynie \n 4 - Powrót \n",
         "add_thing_choice": "Jaką rzecz chcesz dodać do magazynu?",
         "is_in_storage": "znajduje się już w magazynie!",
         "remove_thing_choice": "Jaką rzecz chcesz usunąć z magazynu?",
         "is_not_in_storage": "nie znajduje się już w magazynie!",
         "things_in_storage": "Spis rzeczy w magazynie",
-        "menu_for_emplyees": "Wybierz: \n 1 - Pokaż imiona i nazwiska pracowników \n 2 - Pokaż staż pracy \n 3 - Pokaż wynagrodzenie \n 4 - Powrót \n Twój wybór",
+        "menu_for_emplyees": "Wybierz: \n 1 - Pokaż imiona i nazwiska pracowników \n 2 - Pokaż staż pracy \n 3 - Pokaż wynagrodzenie \n 4 - Powrót \n",
         "seniority": "staż pracy (w latach)",
         "salary": "wynagrodzenie",
-        "menu_for_dogs": "Wybierz: \n 1 - Dodaj pieska \n 2 - Usuń pieska \n 3 - Zmień stan adopcji \n 4 - Powrót \n Twój wybór",
+        "menu_for_dogs": "Wybierz: \n 1 - Dodaj pieska \n 2 - Usuń pieska \n 3 - Zmień stan adopcji \n 4 - Powrót \n",
         "add_give_dog_name": "Podaj imię pieska",
         "name_error": "Niepoprawne imię. Imię powinno zawierać tylko litery i nie być puste.",
         "give_birth_date": "'Podaj datę urodzenia pieska",
@@ -48,12 +48,14 @@
         "after_change_adoption_state": "Stan pieska po zmianie"
     },
     "misc": {
-        "give_role": "Podaj swoją rolę (gość, wolontariusz, manager): ",
+        "give_role": "Podaj swoją rolę (gość, wolontariusz, manager)",
         "greeting_menu": "Witamy na stronie głównej schroniska 'Słoneczko'! \n Menu: \n 1 - Dane kontaktowe schroniska \n 2 - Przegląd piesków \n 3 - Wyprowadzanie piesków \n 4 - Zarządzanie schroniskiem \n 5 - Zakończ program \n",
         "your_choice": "Twój wybór",
         "no_access": "Brak dostępu do podanej funkcji",
         "yes": "tak",
         "name": "Imię",
-        "surname": "nazwisko"
+        "surname": "nazwisko",
+        "free": "wolny",
+        "reserved": "zarezerwowany"
     }
 }
