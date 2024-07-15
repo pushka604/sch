@@ -2,6 +2,8 @@ import json
 from datetime import datetime 
 from copy import deepcopy
 from dotmap import DotMap
+import sys
+from getpass import getpass
 
 with open('pieski.json', 'r') as file:
     pieski = json.load(file)
@@ -14,6 +16,9 @@ with open('magazyn.json', 'r') as file:
 
 with open('pl.json', 'r') as file:
     t = DotMap(json.load(file))
+
+with open('uzytkownicy.json', 'r') as file:
+    uzytkownicy = json.load(file)
 
 def prompt(text):
     return text + ': '
@@ -32,10 +37,29 @@ def check_access(role, access_level):
     roles = {'gość': 1, 'wolontariusz': 2, 'manager': 3}
     return roles.get(role, 0) >= access_level
 
-role = input(prompt(t.misc.give_role))
+while True:    
+    nazwa_uzytkownika = str(input('Nazwa użytkownika: '))
+    haslo = getpass('Hasło: ')
+
+    znaleziono = False
+    for uzytkownik in uzytkownicy:
+        if nazwa_uzytkownika == uzytkownik["nazwa_użytkownika"]:
+            if haslo == uzytkownik["hasło"]:
+                znaleziono = True
+                zalogowany_uzytkownik = uzytkownik
+                break
+    if znaleziono:
+        print('Zalogowano pomyślnie!')
+        break
+    else:
+        print('Nieprawidłowa nazwa użytkownika lub hasło. Czy chcesz kontynuować? (tak, nie)')
+        kontynuacja = str(input(prompt(t.misc.your_choice)))
+        if kontynuacja.lower() == t.misc.no:
+            sys.exit('Zakończono działanie programu.')
+
 
 while True:
-    print(t.misc.greeting_menu)
+    print(f'Cześć {zalogowany_uzytkownik["nazwa_użytkownika"]}! {t.misc.greeting_menu}')
     choice = int(input(prompt(t.misc.your_choice)))
 
     if choice not in [1, 2, 3, 4, 5]:
@@ -56,7 +80,7 @@ while True:
             print(f'{t.overview.adoption}: {piesek['adopcja']}')
 
     elif choice == 3:
-        if check_access(role, 2):
+        if check_access(zalogowany_uzytkownik["rola"], 2):
             imiona = []
             for piesek in pieski:
                 imiona.append(piesek['imię'])
@@ -100,7 +124,7 @@ while True:
             print(t.misc.no_access)            
 
     elif choice == 4:
-        if check_access(role, 3):
+        if check_access(zalogowany_uzytkownik["rola"], 3):
             while True:
                 print(t.management.menu)
                 wybór = int(input(prompt(t.misc.your_choice)))

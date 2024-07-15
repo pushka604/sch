@@ -49,13 +49,14 @@
     },
     "misc": {
         "give_role": "Podaj swoją rolę (gość, wolontariusz, manager)",
-        "greeting_menu": "Witamy na stronie głównej schroniska 'Słoneczko'! \n Menu: \n 1 - Dane kontaktowe schroniska \n 2 - Przegląd piesków \n 3 - Wyprowadzanie piesków \n 4 - Zarządzanie schroniskiem \n 5 - Zakończ program \n",
+        "greeting_menu": "\n Witamy na stronie głównej schroniska 'Słoneczko'! \n Menu: \n 1 - Dane kontaktowe schroniska \n 2 - Przegląd piesków \n 3 - Wyprowadzanie piesków \n 4 - Zarządzanie schroniskiem \n 5 - Zakończ program \n",
         "your_choice": "Twój wybór",
         "no_access": "Brak dostępu do podanej funkcji",
         "yes": "tak",
         "name": "Imię",
         "surname": "nazwisko",
         "free": "wolny",
-        "reserved": "zarezerwowany"
+        "reserved": "zarezerwowany",
+        "no": "nie"
     }
 }
