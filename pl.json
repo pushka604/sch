@@ -8,7 +8,8 @@
         "reservation_done": "Zarezerwowano spacer!",
         "reservation_failure": "Próba rezerwacji nieudana!",
         "no_such_dog": "Nie ma takiego pieska!",
-        "continue_question": "Czy chcesz kontynuować? (tak/nie)"
+        "continue_question": "Czy chcesz kontynuować? (tak/nie)",
+        "walking_reservation_failure": "Rezerwacja nieudana! Piesek jest w tym czasie na spacerze."
     },
     "contact": {
         "address": "Adres schroniska: \n ul. Koszykowa 12 \n 15-003 Białystok \n",
@@ -47,6 +48,20 @@
         "confirmation": "Czy na pewno chcesz zmienić stan adopcji pieska? (tak/nie)",
         "after_change_adoption_state": "Stan pieska po zmianie"
     },
+    "sign": {
+        "logging_out": "Wylogowywanie...",
+        "signing_in_successful": "Zalogowano pomyślnie!",
+        "name_of_user": "Nazwa użytkownika",
+        "password": "Hasło",
+        "error_name_of_user": "Nieprawidłowa nazwa użytkownika lub hasło. Czy chcesz kontynuować? (tak, nie)",
+        "user_name_length_error": "Nazwa użytkownika musi mieć co najmniej 5 znaków.",
+        "user_name_capital_letter_error": "Nazwa użytkownika musi zawierać co najmniej jedną wielką literę.",
+        "password_length_error": "Hasło musi mieć co najmniej 8 znaków.",
+        "registration": "Rejestracja",
+        "give_role_password": "Podaj hasło zabezpieczające",
+        "registration_done": "Rejestracja zakończona sukcesem!",
+        "login_registration": "1 - Zarejestruj się \n2 - Zaloguj się"
+    },
     "misc": {
         "give_role": "Podaj swoją rolę (gość, wolontariusz, manager)",
         "greeting_menu": "\n Witamy na stronie głównej schroniska 'Słoneczko'! \n Menu: \n 1 - Dane kontaktowe schroniska \n 2 - Przegląd piesków \n 3 - Wyprowadzanie piesków \n 4 - Zarządzanie schroniskiem \n 5 - Wyloguj \n 6 - Zakończ program \n",
@@ -57,6 +72,10 @@
         "surname": "nazwisko",
         "free": "wolny",
         "reserved": "zarezerwowany",
-        "no": "nie"
+        "no": "nie",
+        "program_end": "Zakończono działanie programu.",
+        "hi": "Cześć",
+        "registration": "Rejestracja",
+        "failure_try_again": "Próba nieudana. Spróbuj ponownie."
     }
 }

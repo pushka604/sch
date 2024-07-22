@@ -14,8 +14,7 @@ with open('pracownicy.json', 'r') as file:
 with open('magazyn.json', 'r') as file:
     magazyn = json.load(file)
 
-with open('pl.json', 'r') as file:
-    t = DotMap(json.load(file))
+t = {}
 
 with open('uzytkownicy.json', 'r') as file:
     uzytkownicy = json.load(file)
@@ -35,16 +34,16 @@ def validate_birth_date(birth_date):
 
 def validate_username(username):
     if len(username) < 5:
-        print("Nazwa użytkownika musi mieć co najmniej 5 znaków.")
+        print(t.sign.user_name_length_error)
         return False
     if not any(char.isupper() for char in username):
-        print("Nazwa użytkownika musi zawierać co najmniej jedną wielką literę.")
+        print(t.sign.user_name_capital_letter_error)
         return False
     return True
 
 def validate_password(password): 
     if len(password) < 8:
-        print("Hasło musi mieć co najmniej 8 znaków.")
+        print(t.sign.password_length_error)
         return False
     return True
 
@@ -66,10 +65,10 @@ def check_access(role, access_level):
 def main_menu():
     global pieski
     while True:
-        print(f'Cześć {zalogowany_uzytkownik["nazwa_użytkownika"]}! {t.misc.greeting_menu}')
+        print(f'{t.misc.hi} {zalogowany_uzytkownik["nazwa_użytkownika"]}! {t.misc.greeting_menu}')
         choice = int(input(prompt(t.misc.your_choice)))
 
-        if choice not in [1, 2, 3, 4, 5]:
+        if choice not in [1, 2, 3, 4, 5, 6]:
             print(t.misc.no_access)
 
         elif choice == 1:
@@ -115,10 +114,10 @@ def main_menu():
                                         późniejsze_rezerwacje.append(rezerwacja)
                                         
                                 if wcześniejsze_rezerwacje and max(wcześniejsze_rezerwacje) + timedelta(minutes=30) > nowa_rezerwacja_dt:
-                                    print("Rezerwacja nieudana! Piesek jest w tym czasie na spacerze.")
+                                    print(t.reservation.walking_reservation_failure)
                                     continue
                                 if późniejsze_rezerwacje and min(późniejsze_rezerwacje) - timedelta(minutes=30) < nowa_rezerwacja_dt:
-                                    print("Rezerwacja nieudana! Piesek jest w tym czasie na spacerze.")
+                                    print(t.reservation.walking_reservation_failure)
                                     continue
 
                                 teraz_dt = datetime.now()
@@ -287,7 +286,7 @@ def main_menu():
                 print(t.misc.no_access)      
 
         elif choice == 5:
-            print(t.misc.logging_out)
+            print(t.sign.logging_out)
             return
 
 
@@ -296,23 +295,23 @@ def main_menu():
                 json.dump(pieski, file, ensure_ascii=False, indent=4)
             with open('magazyn.json', 'w') as file:
                 json.dump(magazyn, file, ensure_ascii=False, indent=4)
-            break
+            sys.exit(t.misc.program_end)
 
 def register():
-    print("Rejestracja")
+    print(t.sign.registration)
     while True:
-        nazwa_użytkownika = str(input("Podaj nazwę użytkownika: "))
+        nazwa_użytkownika = str(input(prompt(t.sign.name_of_user)))
         if validate_username(nazwa_użytkownika):
             break
 
     while True:
-        hasło = str(getpass("Podaj hasło: "))
+        hasło = str(getpass(prompt(t.sign.password)))
         if validate_password(hasło):
             break
 
-    role = str(input("Podaj swoją rolę: ")) 
+    role = str(input(prompt(t.misc.role))) 
     if role != "gość":
-        hasło_zabezpieczające = str(input('Podaj hasło zabezpieczające: '))
+        hasło_zabezpieczające = str(input(prompt(t.sign.give_role_password)))
         if not validate_access(role, hasło_zabezpieczające):
             return 
 
@@ -330,14 +329,23 @@ def register():
     with open('uzytkownicy.json', 'w') as file:
         json.dump(uzytkownicy, file, ensure_ascii=False, indent=4)
 
-    print("Rejestracja zakończona sukcesem!")
+    print(t.sign.registration_done)
 
 while True:
+    print("Wybierz język (pl, eng): ")
+    jezyk = str(input('Twój wybór: '))
+    if jezyk == 'eng':
+        with open('eng.json', 'r') as file:
+            t = DotMap(json.load(file))
+    else:
+        with open('pl.json', 'r') as file:
+            t = DotMap(json.load(file))
+
     while True: 
-        print("1 - Zarejestruj się \n2 - Zaloguj się")
+        print(t.sign.login_registration)
         choice = int(input(prompt(t.misc.your_choice)))
         if choice not in [1, 2]:
-            print("Próba nieudana. Spróbuj ponownie.")  
+            print(t.misc.failure_try_again)  
         else:
             break
         
@@ -345,8 +353,8 @@ while True:
         register()
 
     elif choice == 2:
-        nazwa_uzytkownika = str(input(prompt(t.misc.name_of_user)))
-        haslo = getpass(prompt(t.misc.password))
+        nazwa_uzytkownika = str(input(prompt(t.sign.name_of_user)))
+        haslo = getpass(prompt(t.sign.password))
 
         znaleziono = False
         for uzytkownik in uzytkownicy:
@@ -356,10 +364,10 @@ while True:
                     zalogowany_uzytkownik = uzytkownik
                     break
         if znaleziono:
-            print(t.misc.signing_in_successful)
+            print(t.sign.signing_in_successful)
             main_menu()
         else:
-            print(t.misc.error_name_of_user)
+            print(t.sign.error_name_of_user)
             kontynuacja = str(input(prompt(t.misc.your_choice)))
             if kontynuacja.lower() == t.misc.no:
                 sys.exit(t.misc.program_end)

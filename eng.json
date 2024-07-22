@@ -1,0 +1,81 @@
+{
+    "reservation": {
+        "dog_walking_choice": "Which dog would you like to walk?",
+        "date_choice": "Enter the date (day.month.year)",
+        "time_choice": "Enter the time (hh:mm)",
+        "early_date_error": "The provided date and time are earlier than the current date and time. Try again.",
+        "invalid_date_format": "Invalid date or time format. Try again.",
+        "reservation_done": "Walk reserved!",
+        "reservation_failure": "Reservation attempt failed!",
+        "no_such_dog": "No such dog!",
+        "continue_question": "Do you want to continue? (yes/no)",
+        "walking_reservation_failure": "Reservation failed! The dog is on a walk at that time."
+    },
+    "contact": {
+        "address": "Shelter address: \n 12 Koszykowa St \n 15-003 Białystok \n",
+        "directory": "Our management: \n Shelter manager: \n Waldemar Kowalski \n tel.: 566 306 987 \n email: waldemar.kowalski@gmail.com \n Deputy manager: \n Barbara Orzechowska \n tel.: 543 567 890 \n email: barbara.orzechowska@gmail.com \n Office: \n tel.: 540 420 456 \n email: schronisko.słoneczko@gmail.com \n",
+        "open_hours": "Shelter opening hours: \n Monday: 8:00 - 16:00 \n Tuesday: 8:00 - 16:00 \n Wednesday: 8:00 - 16:00 \n Thursday: 8:00 - 16:00 \n Friday: 8:00 - 16:00 \n Saturday: 10:00 - 14:00"
+    },
+    "overview": {
+        "date_of_birth": "Date of birth",
+        "dogs_history": "Dog's history",
+        "health_history": "Health history",
+        "adoption": "Adoption"
+    },
+    "management": {
+        "menu": "Choose: \n 1 - Inventory management \n 2 - Employee management \n 3 - Animal management \n 4 - Back \n",
+        "menu_for_storage": "Choose: \n 1 - Add item to inventory \n 2 - Remove item from inventory \n 3 - Inventory list \n 4 - Back \n",
+        "add_thing_choice": "What item do you want to add to the inventory?",
+        "is_in_storage": "is already in the inventory!",
+        "remove_thing_choice": "What item do you want to remove from the inventory?",
+        "is_not_in_storage": "is not in the inventory!",
+        "things_in_storage": "Inventory list",
+        "menu_for_employees": "Choose: \n 1 - Show employees' names \n 2 - Show years of service \n 3 - Show salaries \n 4 - Back \n",
+        "seniority": "years of service",
+        "salary": "salary",
+        "menu_for_dogs": "Choose: \n 1 - Add a dog \n 2 - Remove a dog \n 3 - Change adoption status \n 4 - Back \n",
+        "add_give_dog_name": "Enter the dog's name",
+        "name_error": "Invalid name. The name should contain only letters and not be empty.",
+        "give_birth_date": "Enter the dog's date of birth",
+        "birth_date_error": "Invalid date of birth. The date should be in the format day.month.year and not later than the current year.",
+        "give_dog_history": "Enter the dog's history",
+        "give_dog_health_history": "Enter the dog's health history",
+        "dog_done": "Dog added",
+        "remove_dog_name": "Enter the name of the dog to remove",
+        "dog_remove": "Dog removed",
+        "change_adoption_dog_name": "Enter the name of the dog whose adoption status you want to change",
+        "current_adoption_state": "Current status of the dog",
+        "confirmation": "Are you sure you want to change the dog's adoption status? (yes/no)",
+        "after_change_adoption_state": "Dog's status after the change"
+    },
+    "sign": {
+        "logging_out": "Logging out...",
+        "signing_in_successful": "Successfully logged in!",
+        "name_of_user": "Username",
+        "password": "Password",
+        "error_name_of_user": "Invalid username or password. Do you want to continue? (yes, no)",
+        "user_name_length_error": "Username must be at least 5 characters long.",
+        "user_name_capital_letter_error": "Username must contain at least one uppercase letter.",
+        "password_length_error": "Password must be at least 8 characters long.",
+        "registration": "Registration",
+        "give_role_password": "Enter the security password",
+        "registration_done": "Registration successful!",
+        "login_registration": "1 - Register \n2 - Log in"
+    },
+    "misc": {
+        "give_role": "Enter your role (guest, volunteer, manager)",
+        "greeting_menu": "\n Welcome to the 'Słoneczko' shelter main page! \n Menu: \n 1 - Shelter contact details \n 2 - Dog overview \n 3 - Dog walking \n 4 - Shelter management \n 5 - Log out \n 6 - Exit program \n",
+        "your_choice": "Your choice",
+        "no_access": "No access to the given function",
+        "yes": "yes",
+        "name": "First name",
+        "surname": "Last name",
+        "free": "free",
+        "reserved": "reserved",
+        "no": "no",
+        "program_end": "Program terminated.",
+        "hi": "Hi",
+        "registration": "Registration",
+        "failure_try_again": "Attempt failed. Try again."
+    }
+}
