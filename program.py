@@ -1,5 +1,5 @@
 import json
-from datetime import datetime 
+from datetime import datetime, timedelta
 from copy import deepcopy
 from dotmap import DotMap
 import sys
@@ -64,6 +64,7 @@ def check_access(role, access_level):
     return roles.get(role, 0) >= access_level
 
 def main_menu():
+    global pieski
     while True:
         print(f'Cześć {zalogowany_uzytkownik["nazwa_użytkownika"]}! {t.misc.greeting_menu}')
         choice = int(input(prompt(t.misc.your_choice)))
@@ -94,19 +95,44 @@ def main_menu():
                     print(f'{t.reservation.dog_walking_choice} {imiona}: ')
                     wybór_pieska = str(input(prompt(t.misc.your_choice)))
                     if wybór_pieska in imiona:
+                        for piesek in pieski:
+                            if piesek['imię'] == wybór_pieska:
+                                rezerwacje_dt = []
+                                rezerwacje_dt= [datetime.strptime(data_i_godzina, '%d.%m.%Y/%H:%M') for data_i_godzina in piesek['daty_i_godziny']]
+
                         while True:
                             data = str(input(prompt(t.reservation.date_choice)))
                             godzina = str(input(prompt(t.reservation.time_choice)))
+                        
                             try:
-                                dt = datetime.strptime(f'{data} {godzina}', '%d.%m.%Y %H:%M')
-                                teraz = datetime.now()
-                                if dt > teraz:
+                                nowa_rezerwacja_dt = datetime.strptime(f'{data} {godzina}', '%d.%m.%Y %H:%M')
+                                wcześniejsze_rezerwacje = []
+                                późniejsze_rezerwacje = []
+                                for rezerwacja in rezerwacje_dt:
+                                    if rezerwacja < nowa_rezerwacja_dt:
+                                        wcześniejsze_rezerwacje.append(rezerwacja)
+                                    else:
+                                        późniejsze_rezerwacje.append(rezerwacja)
+                                        
+                                if wcześniejsze_rezerwacje and max(wcześniejsze_rezerwacje) + timedelta(minutes=30) > nowa_rezerwacja_dt:
+                                    print("Rezerwacja nieudana! Piesek jest w tym czasie na spacerze.")
+                                    continue
+                                if późniejsze_rezerwacje and min(późniejsze_rezerwacje) - timedelta(minutes=30) < nowa_rezerwacja_dt:
+                                    print("Rezerwacja nieudana! Piesek jest w tym czasie na spacerze.")
+                                    continue
+
+                                teraz_dt = datetime.now()
+                                if nowa_rezerwacja_dt < teraz_dt:
+                                    print(t.reservation.early_date_error)
+                                    continue
+                                else:
                                     nowa_data_i_godzina = data + '/' + godzina
                                     break
-                                else:
-                                    print(t.reservation.early_date_error)
+
                             except ValueError:
                                 print(t.reservation.invalid_date_format)
+                                continue
+
                         pieski_kopia = deepcopy(pieski)
                         for piesek in pieski_kopia:
                             if piesek['imię'] == wybór_pieska:
