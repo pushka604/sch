@@ -11,9 +11,6 @@ with open('pieski.json', 'r') as file:
 with open('pracownicy.json', 'r') as file:
     pracownicy = json.load(file)
 
-with open('magazyn.json', 'r') as file:
-    magazyn = json.load(file)
-
 t = {}
 
 with open('uzytkownicy.json', 'r') as file:
@@ -155,6 +152,9 @@ def main_menu():
                 print(t.misc.no_access)            
 
         elif choice == 4:
+            with open('magazyn.json', 'r') as file:
+                magazyn = json.load(file)
+
             if check_access(zalogowany_uzytkownik["rola"], 3):
                 while True:
                     print(t.management.menu)
@@ -293,8 +293,6 @@ def main_menu():
         elif choice == 6:
             with open('pieski.json', 'w') as file:
                 json.dump(pieski, file, ensure_ascii=False, indent=4)
-            with open('magazyn.json', 'w') as file:
-                json.dump(magazyn, file, ensure_ascii=False, indent=4)
             sys.exit(t.misc.program_end)
 
 def register():
