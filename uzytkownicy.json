@@ -1,6 +1,6 @@
 [
     {
-        "nazwa_użytkownika": "torpeda3000",
+        "nazwa_użytkownika": "Torpeda3000",
         "hasło": "buziaczek33!",
         "rola": "gość"
     },
@@ -13,5 +13,15 @@
         "nazwa_użytkownika": "Zbigniew",
         "hasło": "schroniskosloneczko34",
         "rola": "manager"
+    },
+    {
+        "nazwa_użytkownika": "Mis3456",
+        "hasło": "Groznytututu45",
+        "rola": "gość"
+    },
+    {
+        "nazwa_użytkownika": "Wolontariusz_grzes3456",
+        "hasło": "lubiepieski34561",
+        "rola": "wolontariusz"
     }
 ]

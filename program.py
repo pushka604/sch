@@ -33,6 +33,32 @@ def validate_birth_date(birth_date):
     except ValueError:
         return False
 
+def validate_username(username):
+    if len(username) < 5:
+        print("Nazwa użytkownika musi mieć co najmniej 5 znaków.")
+        return False
+    if not any(char.isupper() for char in username):
+        print("Nazwa użytkownika musi zawierać co najmniej jedną wielką literę.")
+        return False
+    return True
+
+def validate_password(password): 
+    if len(password) < 8:
+        print("Hasło musi mieć co najmniej 8 znaków.")
+        return False
+    return True
+
+def validate_access(role, hasło):
+    while True:
+        with open('klucze.json', 'r') as file:
+            klucze = json.load(file)
+        
+        for klucz in klucze:
+            if klucz["rola"] == role:
+                if klucz["hasło"] == hasło:
+                    return True
+        return False
+                        
 def check_access(role, access_level):
     roles = {'gość': 1, 'wolontariusz': 2, 'manager': 3}
     return roles.get(role, 0) >= access_level
@@ -235,7 +261,7 @@ def main_menu():
                 print(t.misc.no_access)      
 
         elif choice == 5:
-            print('Wylogowywanie...')
+            print(t.misc.logging_out)
             return
 
 
@@ -246,22 +272,68 @@ def main_menu():
                 json.dump(magazyn, file, ensure_ascii=False, indent=4)
             break
 
-while True:    
-    nazwa_uzytkownika = str(input('Nazwa użytkownika: '))
-    haslo = getpass('Hasło: ')
+def register():
+    print("Rejestracja")
+    while True:
+        nazwa_użytkownika = str(input("Podaj nazwę użytkownika: "))
+        if validate_username(nazwa_użytkownika):
+            break
 
-    znaleziono = False
-    for uzytkownik in uzytkownicy:
-        if nazwa_uzytkownika == uzytkownik["nazwa_użytkownika"]:
-            if haslo == uzytkownik["hasło"]:
-                znaleziono = True
-                zalogowany_uzytkownik = uzytkownik
-                break
-    if znaleziono:
-        print('Zalogowano pomyślnie!')
-        main_menu()
-    else:
-        print('Nieprawidłowa nazwa użytkownika lub hasło. Czy chcesz kontynuować? (tak, nie)')
-        kontynuacja = str(input(prompt(t.misc.your_choice)))
-        if kontynuacja.lower() == t.misc.no:
-            sys.exit('Zakończono działanie programu.')
+    while True:
+        hasło = str(getpass("Podaj hasło: "))
+        if validate_password(hasło):
+            break
+
+    role = str(input("Podaj swoją rolę: ")) 
+    if role != "gość":
+        hasło_zabezpieczające = str(input('Podaj hasło zabezpieczające: '))
+        if not validate_access(role, hasło_zabezpieczające):
+            return 
+
+    nowy_użytkownik = {
+        "nazwa_użytkownika": nazwa_użytkownika,
+        "hasło": hasło,
+        "rola": role
+    }
+
+    with open('uzytkownicy.json', 'r') as file:
+        uzytkownicy = json.load(file)
+
+    uzytkownicy.append(nowy_użytkownik)
+
+    with open('uzytkownicy.json', 'w') as file:
+        json.dump(uzytkownicy, file, ensure_ascii=False, indent=4)
+
+    print("Rejestracja zakończona sukcesem!")
+
+while True:
+    while True: 
+        print("1 - Zarejestruj się \n2 - Zaloguj się")
+        choice = int(input(prompt(t.misc.your_choice)))
+        if choice not in [1, 2]:
+            print("Próba nieudana. Spróbuj ponownie.")  
+        else:
+            break
+        
+    if choice == 1:
+        register()
+
+    elif choice == 2:
+        nazwa_uzytkownika = str(input(prompt(t.misc.name_of_user)))
+        haslo = getpass(prompt(t.misc.password))
+
+        znaleziono = False
+        for uzytkownik in uzytkownicy:
+            if nazwa_uzytkownika == uzytkownik["nazwa_użytkownika"]:
+                if haslo == uzytkownik["hasło"]:
+                    znaleziono = True
+                    zalogowany_uzytkownik = uzytkownik
+                    break
+        if znaleziono:
+            print(t.misc.signing_in_successful)
+            main_menu()
+        else:
+            print(t.misc.error_name_of_user)
+            kontynuacja = str(input(prompt(t.misc.your_choice)))
+            if kontynuacja.lower() == t.misc.no:
+                sys.exit(t.misc.program_end)
