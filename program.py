@@ -21,14 +21,7 @@ zalogowany_uzytkownik = {}
 def main():
     global zalogowany_uzytkownik
     while True:
-        print("Wybierz język (pl, eng): ")
-        jezyk = str(input('Twój wybór: '))
-        if jezyk == 'eng':
-            with open('eng.json', 'r') as file:
-                t = DotMap(json.load(file))
-        else:
-            with open('pl.json', 'r') as file:
-                t = DotMap(json.load(file))
+        choose_language_view()
         
 
         while True: 
@@ -63,6 +56,17 @@ def main():
                 kontynuacja = str(input(prompt(t.misc.your_choice)))
                 if kontynuacja.lower() == t.misc.no:
                     sys.exit(t.misc.program_end)
+
+def choose_language_view():
+    global t
+    print("Wybierz język (pl, eng): ")
+    jezyk = str(input('Twój wybór: '))
+    if jezyk == 'eng':
+        with open('eng.json', 'r') as file:
+            t = DotMap(json.load(file))
+    else:
+        with open('pl.json', 'r') as file:
+            t = DotMap(json.load(file))
 
 def prompt(text):
     return text + ': '
