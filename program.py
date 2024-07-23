@@ -12,10 +12,57 @@ with open('pieski.json', 'r') as file:
 with open('pracownicy.json', 'r') as file:
     pracownicy = json.load(file)
 
-t = {}
-
 with open('uzytkownicy.json', 'r') as file:
     uzytkownicy = json.load(file)
+
+t = {}
+zalogowany_uzytkownik = {}
+
+def main():
+    global zalogowany_uzytkownik
+    while True:
+        print("Wybierz język (pl, eng): ")
+        jezyk = str(input('Twój wybór: '))
+        if jezyk == 'eng':
+            with open('eng.json', 'r') as file:
+                t = DotMap(json.load(file))
+        else:
+            with open('pl.json', 'r') as file:
+                t = DotMap(json.load(file))
+        
+
+        while True: 
+            print(t.sign.login_registration)
+            choice = int(input(prompt(t.misc.your_choice)))
+            if choice not in [1, 2]:
+                
+                print(t.misc.failure_try_again)  
+            else:
+                break
+            
+        if choice == 1:
+            register()
+
+        elif choice == 2:
+            
+            nazwa_uzytkownika = str(input(prompt(t.sign.name_of_user)))
+            haslo = getpass(prompt(t.sign.password))
+
+            znaleziono = False
+            for uzytkownik in uzytkownicy:
+                if nazwa_uzytkownika == uzytkownik["nazwa_użytkownika"]:
+                    if haslo == uzytkownik["hasło"]:
+                        znaleziono = True
+                        zalogowany_uzytkownik = uzytkownik
+                        break
+            if znaleziono:
+                print(t.sign.signing_in_successful)
+                main_menu()
+            else:
+                print(t.sign.error_name_of_user)
+                kontynuacja = str(input(prompt(t.misc.your_choice)))
+                if kontynuacja.lower() == t.misc.no:
+                    sys.exit(t.misc.program_end)
 
 def prompt(text):
     return text + ': '
@@ -342,46 +389,4 @@ def register():
 
     print(t.sign.registration_done)
 
-while True:
-    print("Wybierz język (pl, eng): ")
-    jezyk = str(input('Twój wybór: '))
-    if jezyk == 'eng':
-        with open('eng.json', 'r') as file:
-            t = DotMap(json.load(file))
-    else:
-        with open('pl.json', 'r') as file:
-            t = DotMap(json.load(file))
-    
-
-    while True: 
-        print(t.sign.login_registration)
-        choice = int(input(prompt(t.misc.your_choice)))
-        if choice not in [1, 2]:
-            
-            print(t.misc.failure_try_again)  
-        else:
-            break
-        
-    if choice == 1:
-        register()
-
-    elif choice == 2:
-        
-        nazwa_uzytkownika = str(input(prompt(t.sign.name_of_user)))
-        haslo = getpass(prompt(t.sign.password))
-
-        znaleziono = False
-        for uzytkownik in uzytkownicy:
-            if nazwa_uzytkownika == uzytkownik["nazwa_użytkownika"]:
-                if haslo == uzytkownik["hasło"]:
-                    znaleziono = True
-                    zalogowany_uzytkownik = uzytkownik
-                    break
-        if znaleziono:
-            print(t.sign.signing_in_successful)
-            main_menu()
-        else:
-            print(t.sign.error_name_of_user)
-            kontynuacja = str(input(prompt(t.misc.your_choice)))
-            if kontynuacja.lower() == t.misc.no:
-                sys.exit(t.misc.program_end)
+main()
