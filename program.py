@@ -117,10 +117,15 @@ def check_access(role, access_level):
     roles = {'gość': 1, 'wolontariusz': 2, 'manager': 3}
     return roles.get(role, 0) >= access_level
 
+def contact_view():
+    print('\n')
+    print(t.contact.address)
+    print(t.contact.directory)
+    print(t.contact.open_hours)
+    
 def main_menu():
     global pieski
     while True:
-        
         print(f'{t.misc.hi} {zalogowany_uzytkownik["nazwa_użytkownika"]}! {t.misc.greeting_menu}')
         choice = int(input(prompt(t.misc.your_choice)))
 
@@ -128,11 +133,7 @@ def main_menu():
             print(t.misc.no_access)
 
         elif choice == 1:
-            
-            print('\n')
-            print(t.contact.address)
-            print(t.contact.directory)
-            print(t.contact.open_hours)
+            contact_view()
 
         elif choice == 2:
             
