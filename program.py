@@ -20,18 +20,11 @@ zalogowany_uzytkownik = {}
 
 def main():
     global zalogowany_uzytkownik
+    choice = int()
     while True:
         choose_language_view()
-        
 
-        while True: 
-            print(t.sign.login_registration)
-            choice = int(input(prompt(t.misc.your_choice)))
-            if choice not in [1, 2]:
-                
-                print(t.misc.failure_try_again)  
-            else:
-                break
+        choose_login_registration_view(choice)
             
         if choice == 1:
             register()
@@ -57,6 +50,14 @@ def main():
                 if kontynuacja.lower() == t.misc.no:
                     sys.exit(t.misc.program_end)
 
+def choose_login_registration_view(choice):
+    while True: 
+            print(t.sign.login_registration)
+            choice = int(input(prompt(t.misc.your_choice)))
+            if choice not in [1, 2]:
+                print(t.misc.failure_try_again)  
+            else:
+                break
 def choose_language_view():
     global t
     print("Wybierz język (pl, eng): ")
