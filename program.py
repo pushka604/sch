@@ -260,72 +260,89 @@ def employees_management_menu_view():
         elif opcje == 4:
             break
 
-def dogs_management_menu_view():
+def add_dog_view():
     global pieski
 
+    while True:
+        imię = str(input(prompt(t.management.add_give_dog_name)))
+        if validate_name(imię):
+            break
+        else:
+            print(t.management.name_error)
+    
+    while True:
+        data_urodzenia = str(input(prompt(t.management.give_birth_date)))
+        if validate_birth_date(data_urodzenia):
+            break
+        else:
+            print(t.management.birth_date_error)
+    
+    historia_pieska = str(input(prompt(t.management.give_dog_history)))
+    historia_zdrowotna = str(input(prompt(t.management.give_dog_health_history)))
+    nowy_piesek = {
+        'imię': imię,
+        'data_urodzenia': data_urodzenia,
+        'historia_pieska': historia_pieska,
+        'historia_zdrowotna': historia_zdrowotna,
+        'adopcja': 'wolny',
+        'daty_i_godziny': []
+    }
+    pieski_kopia = deepcopy(pieski)
+    pieski_kopia.append(nowy_piesek)
+    with open('pieski.json', 'w') as file:
+        json.dump(pieski_kopia, file, ensure_ascii=False, indent=4)
+    with open('pieski.json', 'r') as file:
+        pieski = json.load(file)
+    print(f'{t.management.dog_done}: {imię}')
+
+def remove_dog_view():
+    global pieski
+
+    imię = input(prompt(t.management.remove_dog_name))
+    pieski_kopia = deepcopy(pieski)
+    pieski_kopia = [piesek for piesek in pieski_kopia if piesek['imię'] != imię]
+    with open('pieski.json', 'w') as file:
+        json.dump(pieski_kopia, file, ensure_ascii=False, indent=4)
+    with open('pieski.json', 'r') as file:
+        pieski = json.load(file)
+    print(f'{t.management.dog_remove}: {imię}')
+
+def change_adoption_view():
+    global pieski
+
+    imię = str(input(prompt(t.management.change_adoption_dog_name)))
+    pieski_kopia = deepcopy(pieski)
+    for piesek in pieski_kopia:
+        if piesek['imię'] == imię:
+            print(f'{t.management.current_adoption_state}{piesek['imię']}: {piesek['adopcja']}')
+            potwierdzenie = str(input(prompt(t.management.confirmation)))
+            if potwierdzenie.lower() == t.misc.yes:
+                if piesek['adopcja'] == t.misc.free:
+                    piesek['adopcja'] = t.misc.reserved
+                else:
+                    piesek['adopcja'] = t.misc.free
+                with open('pieski.json', 'w') as file:
+                    json.dump(pieski_kopia, file, ensure_ascii=False, indent=4)
+                with open('pieski.json', 'r') as file:
+                    pieski = json.load(file)
+            print(f'{t.management.after_change_adoption_state}: {piesek['adopcja']}')
+
+def dogs_management_menu_view():
     while True:
         print(t.management.menu_for_dogs)
         opcje = int(input(prompt(t.misc.your_choice)))
         if opcje not in [1, 2, 3, 4]:
             print(t.misc.no_access)
+
         elif opcje == 1:
-            while True:
-                imię = str(input(prompt(t.management.add_give_dog_name)))
-                if validate_name(imię):
-                    break
-                else:
-                    print(t.management.name_error)
-            
-            while True:
-                data_urodzenia = str(input(prompt(t.management.give_birth_date)))
-                if validate_birth_date(data_urodzenia):
-                    break
-                else:
-                    print(t.management.birth_date_error)
-            
-            historia_pieska = str(input(prompt(t.management.give_dog_history)))
-            historia_zdrowotna = str(input(prompt(t.management.give_dog_health_history)))
-            nowy_piesek = {
-                'imię': imię,
-                'data_urodzenia': data_urodzenia,
-                'historia_pieska': historia_pieska,
-                'historia_zdrowotna': historia_zdrowotna,
-                'adopcja': 'wolny',
-                'daty_i_godziny': []
-            }
-            pieski_kopia = deepcopy(pieski)
-            pieski_kopia.append(nowy_piesek)
-            with open('pieski.json', 'w') as file:
-                json.dump(pieski_kopia, file, ensure_ascii=False, indent=4)
-            with open('pieski.json', 'r') as file:
-                pieski = json.load(file)
-            print(f'{t.management.dog_done}: {imię}')
+            add_dog_view()
+
         elif opcje == 2:
-            imię = input(prompt(t.management.remove_dog_name))
-            pieski_kopia = deepcopy(pieski)
-            pieski_kopia = [piesek for piesek in pieski_kopia if piesek['imię'] != imię]
-            with open('pieski.json', 'w') as file:
-                json.dump(pieski_kopia, file, ensure_ascii=False, indent=4)
-            with open('pieski.json', 'r') as file:
-                pieski = json.load(file)
-            print(f'{t.management.dog_remove}: {imię}')
+            remove_dog_view()
+
         elif opcje == 3:
-            imię = str(input(prompt(t.management.change_adoption_dog_name)))
-            pieski_kopia = deepcopy(pieski)
-            for piesek in pieski_kopia:
-                if piesek['imię'] == imię:
-                    print(f'{t.management.current_adoption_state}{piesek['imię']}: {piesek['adopcja']}')
-                    potwierdzenie = str(input(prompt(t.management.confirmation)))
-                    if potwierdzenie.lower() == t.misc.yes:
-                        if piesek['adopcja'] == t.misc.free:
-                            piesek['adopcja'] = t.misc.reserved
-                        else:
-                            piesek['adopcja'] = t.misc.free
-                        with open('pieski.json', 'w') as file:
-                            json.dump(pieski_kopia, file, ensure_ascii=False, indent=4)
-                        with open('pieski.json', 'r') as file:
-                            pieski = json.load(file)
-                    print(f'{t.management.after_change_adoption_state}: {piesek['adopcja']}')
+            change_adoption_view()
+
         elif opcje == 4:
             break
 
