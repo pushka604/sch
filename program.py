@@ -122,9 +122,16 @@ def contact_view():
     print(t.contact.address)
     print(t.contact.directory)
     print(t.contact.open_hours)
-    
+
+def dogs_overview_view():
+    for piesek in pieski:
+        print(f'\n{t.misc.name}: {piesek['imię']}')
+        print(f'{t.overview.date_of_birth}: {piesek['data_urodzenia']}')
+        print(f'{t.overview.dogs_history}: {piesek['historia_pieska']}')
+        print(f'{t.overview.health_history}: {piesek['historia_zdrowotna']}')
+        print(f'{t.overview.adoption}: {piesek['adopcja']}')   
+
 def main_menu():
-    global pieski
     while True:
         print(f'{t.misc.hi} {zalogowany_uzytkownik["nazwa_użytkownika"]}! {t.misc.greeting_menu}')
         choice = int(input(prompt(t.misc.your_choice)))
@@ -136,13 +143,7 @@ def main_menu():
             contact_view()
 
         elif choice == 2:
-            
-            for piesek in pieski:
-                print(f'\n{t.misc.name}: {piesek['imię']}')
-                print(f'{t.overview.date_of_birth}: {piesek['data_urodzenia']}')
-                print(f'{t.overview.dogs_history}: {piesek['historia_pieska']}')
-                print(f'{t.overview.health_history}: {piesek['historia_zdrowotna']}')
-                print(f'{t.overview.adoption}: {piesek['adopcja']}')
+            dogs_overview_view()
 
         elif choice == 3:
             
