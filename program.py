@@ -131,6 +131,76 @@ def dogs_overview_view():
         print(f'{t.overview.health_history}: {piesek['historia_zdrowotna']}')
         print(f'{t.overview.adoption}: {piesek['adopcja']}')   
 
+def dogs_reservations_view():
+    global pieski
+    if check_access(zalogowany_uzytkownik["rola"], 2):
+        imiona = []
+        for piesek in pieski:
+            imiona.append(piesek['imię'])
+        while True:
+            print(f'{t.reservation.dog_walking_choice} {imiona}: ')
+            wybór_pieska = str(input(prompt(t.misc.your_choice)))
+            if wybór_pieska in imiona:
+                for piesek in pieski:
+                    if piesek['imię'] == wybór_pieska:
+                        rezerwacje_dt = []
+                        rezerwacje_dt= [datetime.strptime(data_i_godzina, '%d.%m.%Y/%H:%M') for data_i_godzina in piesek['daty_i_godziny']]
+
+                while True:
+                    data = str(input(prompt(t.reservation.date_choice)))
+                    godzina = str(input(prompt(t.reservation.time_choice)))
+                
+                    try:
+                        nowa_rezerwacja_dt = datetime.strptime(f'{data} {godzina}', '%d.%m.%Y %H:%M')
+                        wcześniejsze_rezerwacje = []
+                        późniejsze_rezerwacje = []
+                        for rezerwacja in rezerwacje_dt:
+                            if rezerwacja < nowa_rezerwacja_dt:
+                                wcześniejsze_rezerwacje.append(rezerwacja)
+                            else:
+                                późniejsze_rezerwacje.append(rezerwacja)
+                                
+                        if wcześniejsze_rezerwacje and max(wcześniejsze_rezerwacje) + timedelta(minutes=30) > nowa_rezerwacja_dt:
+                            print(t.reservation.walking_reservation_failure)
+                            continue
+                        if późniejsze_rezerwacje and min(późniejsze_rezerwacje) - timedelta(minutes=30) < nowa_rezerwacja_dt:
+                            print(t.reservation.walking_reservation_failure)
+                            continue
+
+                        teraz_dt = datetime.now()
+                        if nowa_rezerwacja_dt < teraz_dt:
+                            print(t.reservation.early_date_error)
+                            continue
+                        else:
+                            nowa_data_i_godzina = data + '/' + godzina
+                            break
+
+                    except ValueError:
+                        print(t.reservation.invalid_date_format)
+                        continue
+
+                pieski_kopia = deepcopy(pieski)
+                for piesek in pieski_kopia:
+                    if piesek['imię'] == wybór_pieska:
+                        if nowa_data_i_godzina not in piesek['daty_i_godziny']:
+                            print(t.reservation.reservation_done)
+                            piesek['daty_i_godziny'].append(nowa_data_i_godzina)
+                            with open('pieski.json', 'w') as file:
+                                json.dump(pieski_kopia, file, ensure_ascii=False, indent=4)
+                            with open('pieski.json', 'r') as file:
+                                pieski = json.load(file)
+                        else:
+                            print(t.reservation.reservation_failure)
+                        break
+            else:
+                print(t.reservation.no_such_dog)
+
+            kontynuacja = input(prompt(t.reservation.continue_question))
+            if kontynuacja.lower() != t.misc.yes:
+                break
+    else:
+        print(t.misc.no_access)            
+
 def main_menu():
     while True:
         print(f'{t.misc.hi} {zalogowany_uzytkownik["nazwa_użytkownika"]}! {t.misc.greeting_menu}')
@@ -146,74 +216,7 @@ def main_menu():
             dogs_overview_view()
 
         elif choice == 3:
-            
-            if check_access(zalogowany_uzytkownik["rola"], 2):
-                imiona = []
-                for piesek in pieski:
-                    imiona.append(piesek['imię'])
-                while True:
-                    print(f'{t.reservation.dog_walking_choice} {imiona}: ')
-                    wybór_pieska = str(input(prompt(t.misc.your_choice)))
-                    if wybór_pieska in imiona:
-                        for piesek in pieski:
-                            if piesek['imię'] == wybór_pieska:
-                                rezerwacje_dt = []
-                                rezerwacje_dt= [datetime.strptime(data_i_godzina, '%d.%m.%Y/%H:%M') for data_i_godzina in piesek['daty_i_godziny']]
-
-                        while True:
-                            data = str(input(prompt(t.reservation.date_choice)))
-                            godzina = str(input(prompt(t.reservation.time_choice)))
-                        
-                            try:
-                                nowa_rezerwacja_dt = datetime.strptime(f'{data} {godzina}', '%d.%m.%Y %H:%M')
-                                wcześniejsze_rezerwacje = []
-                                późniejsze_rezerwacje = []
-                                for rezerwacja in rezerwacje_dt:
-                                    if rezerwacja < nowa_rezerwacja_dt:
-                                        wcześniejsze_rezerwacje.append(rezerwacja)
-                                    else:
-                                        późniejsze_rezerwacje.append(rezerwacja)
-                                        
-                                if wcześniejsze_rezerwacje and max(wcześniejsze_rezerwacje) + timedelta(minutes=30) > nowa_rezerwacja_dt:
-                                    print(t.reservation.walking_reservation_failure)
-                                    continue
-                                if późniejsze_rezerwacje and min(późniejsze_rezerwacje) - timedelta(minutes=30) < nowa_rezerwacja_dt:
-                                    print(t.reservation.walking_reservation_failure)
-                                    continue
-
-                                teraz_dt = datetime.now()
-                                if nowa_rezerwacja_dt < teraz_dt:
-                                    print(t.reservation.early_date_error)
-                                    continue
-                                else:
-                                    nowa_data_i_godzina = data + '/' + godzina
-                                    break
-
-                            except ValueError:
-                                print(t.reservation.invalid_date_format)
-                                continue
-
-                        pieski_kopia = deepcopy(pieski)
-                        for piesek in pieski_kopia:
-                            if piesek['imię'] == wybór_pieska:
-                                if nowa_data_i_godzina not in piesek['daty_i_godziny']:
-                                    print(t.reservation.reservation_done)
-                                    piesek['daty_i_godziny'].append(nowa_data_i_godzina)
-                                    with open('pieski.json', 'w') as file:
-                                        json.dump(pieski_kopia, file, ensure_ascii=False, indent=4)
-                                    with open('pieski.json', 'r') as file:
-                                        pieski = json.load(file)
-                                else:
-                                    print(t.reservation.reservation_failure)
-                                break
-                    else:
-                        print(t.reservation.no_such_dog)
-
-                    kontynuacja = input(prompt(t.reservation.continue_question))
-                    if kontynuacja.lower() != t.misc.yes:
-                        break
-            else:
-                print(t.misc.no_access)            
+            dogs_reservations_view()
 
         elif choice == 4:
             
