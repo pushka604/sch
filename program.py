@@ -201,10 +201,44 @@ def dogs_reservations_view():
     else:
         print(t.misc.no_access)            
 
-def storage_management_menu_view():
+def add_to_storage_view():
     with open('magazyn.json', 'r') as file:
                 magazyn = json.load(file)
 
+    rzecz = str(input(prompt(t.management.add_thing_choice)))
+
+    if rzecz not in magazyn:
+        magazyn_kopia = deepcopy(magazyn)
+        magazyn_kopia.append(rzecz)
+        with open('magazyn.json', 'w') as file:
+            json.dump(magazyn_kopia, file, ensure_ascii=False, indent=4) 
+        with open('magazyn.json', 'r') as file:
+            magazyn = json.load(file)  
+    else:
+        print(f'{rzecz} {t.management.is_in_storage}')
+
+def remove_from_storage_view():
+    with open('magazyn.json', 'r') as file:
+                magazyn = json.load(file)
+
+    rzecz = str(input(prompt(t.management.remove_thing_choice)))
+
+    if rzecz in magazyn:
+        magazyn_kopia = deepcopy(magazyn)
+        magazyn_kopia.remove(rzecz)
+        with open('magazyn.json', 'w') as file:
+            json.dump(magazyn_kopia, file, ensure_ascii=False, indent=4) 
+        with open('magazyn.json', 'r') as file:
+            magazyn = json.load(file)
+    else:
+        print(f'{rzecz} {t.management.is_not_in_storage}')
+
+def storage_overview_view():
+    with open('magazyn.json', 'r') as file:
+        magazyn = json.load(file)
+    print(f'{t.management.things_in_storage}: {magazyn}')
+    
+def storage_management_menu_view():
     while True:
         print(t.management.menu_for_storage)
         opcje = int(input(prompt(t.misc.your_choice)))
@@ -213,31 +247,13 @@ def storage_management_menu_view():
             print(t.misc.no_access)
 
         elif opcje == 1:
-            rzecz = str(input(prompt(t.management.add_thing_choice)))
-            if rzecz not in magazyn:
-                magazyn_kopia = deepcopy(magazyn)
-                magazyn_kopia.append(rzecz)
-                with open('magazyn.json', 'w') as file:
-                    json.dump(magazyn_kopia, file, ensure_ascii=False, indent=4) 
-                with open('magazyn.json', 'r') as file:
-                    magazyn = json.load(file)  
-            else:
-                print(f'{rzecz} {t.management.is_in_storage}')
+            add_to_storage_view()
 
         elif opcje == 2:
-            rzecz = str(input(prompt(t.management.remove_thing_choice)))
-            if rzecz in magazyn:
-                magazyn_kopia = deepcopy(magazyn)
-                magazyn_kopia.remove(rzecz)
-                with open('magazyn.json', 'w') as file:
-                    json.dump(magazyn_kopia, file, ensure_ascii=False, indent=4) 
-                with open('magazyn.json', 'r') as file:
-                    magazyn = json.load(file)
-            else:
-                print(f'{rzecz} {t.management.is_not_in_storage}')
+            remove_from_storage_view()
 
         elif opcje == 3:
-            print(f'{t.management.things_in_storage}: {magazyn}')
+            storage_overview_view()
 
         elif opcje == 4:
             break
