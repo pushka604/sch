@@ -22,13 +22,7 @@ def main():
     while True:
         choose_language_view()
 
-        choice = choose_login_registration_view()
-
-        if choice == 1:
-            register_view()
-
-        elif choice == 2:
-            login_view()
+        choose_login_registration_view()
 
 def login_view():
     global zalogowany_uzytkownik
@@ -58,7 +52,13 @@ def choose_login_registration_view():
         if choice not in [1, 2]:
             print(t.misc.failure_try_again)  
         else:
-            return choice
+            break
+
+    if choice == 1:
+            register_view()
+
+    elif choice == 2:
+        login_view()
 
 def choose_language_view():
     global t
@@ -201,6 +201,144 @@ def dogs_reservations_view():
     else:
         print(t.misc.no_access)            
 
+def management_menu_view():
+    global pieski
+    with open('magazyn.json', 'r') as file:
+                magazyn = json.load(file)
+
+    if check_access(zalogowany_uzytkownik["rola"], 3):
+        while True:
+            print(t.management.menu)
+            wybór = int(input(prompt(t.misc.your_choice)))
+            if wybór not in [1, 2, 3, 4]:
+                print(t.misc.no_access)
+                
+            elif wybór == 1:
+                while True:
+                    
+                    print(t.management.menu_for_storage)
+                    opcje = int(input(prompt(t.misc.your_choice)))
+                    if opcje not in [1, 2, 3, 4]:
+                        print(t.misc.no_access)
+                    elif opcje == 1:
+                        rzecz = str(input(prompt(t.management.add_thing_choice)))
+                        if rzecz not in magazyn:
+                            magazyn_kopia = deepcopy(magazyn)
+                            magazyn_kopia.append(rzecz)
+                            with open('magazyn.json', 'w') as file:
+                                json.dump(magazyn_kopia, file, ensure_ascii=False, indent=4) 
+                            with open('magazyn.json', 'r') as file:
+                                magazyn = json.load(file)  
+                        else:
+                            print(f'{rzecz} {t.management.is_in_storage}')
+                    elif opcje == 2:
+                        rzecz = str(input(prompt(t.management.remove_thing_choice)))
+                        if rzecz in magazyn:
+                            magazyn_kopia = deepcopy(magazyn)
+                            magazyn_kopia.remove(rzecz)
+                            with open('magazyn.json', 'w') as file:
+                                json.dump(magazyn_kopia, file, ensure_ascii=False, indent=4) 
+                            with open('magazyn.json', 'r') as file:
+                                magazyn = json.load(file)
+                        else:
+                            print(f'{rzecz} {t.management.is_not_in_storage}')
+                    elif opcje == 3:
+                        print(f'{t.management.things_in_storage}: {magazyn}')
+                    elif opcje == 4:
+                        break
+            
+            elif wybór == 2:
+                while True:
+                    
+                    print(t.management.menu_for_emplyees)
+                    opcje = int(input(prompt(t.misc.your_choice)))
+                    if opcje not in [1, 2, 3, 4]:
+                        print(t.misc.no_access)
+                    elif opcje == 1:
+                        for pracownik in pracownicy:
+                            print(f'\n{t.misc.name}: {pracownik['imię']}, {t.misc.surname}: {pracownik['nazwisko']}')
+                    elif opcje == 2:
+                        for pracownik in pracownicy:
+                            print(f'\n{t.misc.name}: {pracownik['imię']}, {t.misc.surname}: {pracownik['nazwisko']}, {t.management.seniority}: {pracownik['staż_pracy_(w latach)']}')
+                    elif opcje == 3:
+                        for pracownik in pracownicy:
+                            print(f'\n{t.misc.name}: {pracownik['imię']}, {t.misc.surname}: {pracownik['nazwisko']}, {t.management.salary}: {pracownik['wynagrodzenie']}')
+                    elif opcje == 4:
+                        break
+            
+            elif wybór == 3:
+                while True:
+                    
+                    print(t.management.menu_for_dogs)
+                    opcje = int(input(prompt(t.misc.your_choice)))
+                    if opcje not in [1, 2, 3, 4]:
+                        print(t.misc.no_access)
+                    elif opcje == 1:
+                        while True:
+                            imię = str(input(prompt(t.management.add_give_dog_name)))
+                            if validate_name(imię):
+                                break
+                            else:
+                                print(t.management.name_error)
+                        
+                        while True:
+                            data_urodzenia = str(input(prompt(t.management.give_birth_date)))
+                            if validate_birth_date(data_urodzenia):
+                                break
+                            else:
+                                print(t.management.birth_date_error)
+                        
+                        historia_pieska = str(input(prompt(t.management.give_dog_history)))
+                        historia_zdrowotna = str(input(prompt(t.management.give_dog_health_history)))
+                        nowy_piesek = {
+                            'imię': imię,
+                            'data_urodzenia': data_urodzenia,
+                            'historia_pieska': historia_pieska,
+                            'historia_zdrowotna': historia_zdrowotna,
+                            'adopcja': 'wolny',
+                            'daty_i_godziny': []
+                        }
+                        pieski_kopia = deepcopy(pieski)
+                        pieski_kopia.append(nowy_piesek)
+                        with open('pieski.json', 'w') as file:
+                            json.dump(pieski_kopia, file, ensure_ascii=False, indent=4)
+                        with open('pieski.json', 'r') as file:
+                            pieski = json.load(file)
+                        print(f'{t.management.dog_done}: {imię}')
+                    elif opcje == 2:
+                        imię = input(prompt(t.management.remove_dog_name))
+                        pieski_kopia = deepcopy(pieski)
+                        pieski_kopia = [piesek for piesek in pieski_kopia if piesek['imię'] != imię]
+                        with open('pieski.json', 'w') as file:
+                            json.dump(pieski_kopia, file, ensure_ascii=False, indent=4)
+                        with open('pieski.json', 'r') as file:
+                            pieski = json.load(file)
+                        print(f'{t.management.dog_remove}: {imię}')
+                    elif opcje == 3:
+                        imię = str(input(prompt(t.management.change_adoption_dog_name)))
+                        pieski_kopia = deepcopy(pieski)
+                        for piesek in pieski_kopia:
+                            if piesek['imię'] == imię:
+                                print(f'{t.management.current_adoption_state}{piesek['imię']}: {piesek['adopcja']}')
+                                potwierdzenie = str(input(prompt(t.management.confirmation)))
+                                if potwierdzenie.lower() == t.misc.yes:
+                                    if piesek['adopcja'] == t.misc.free:
+                                        piesek['adopcja'] = t.misc.reserved
+                                    else:
+                                        piesek['adopcja'] = t.misc.free
+                                    with open('pieski.json', 'w') as file:
+                                        json.dump(pieski_kopia, file, ensure_ascii=False, indent=4)
+                                    with open('pieski.json', 'r') as file:
+                                        pieski = json.load(file)
+                                print(f'{t.management.after_change_adoption_state}: {piesek['adopcja']}')
+                    elif opcje == 4:
+                        break
+
+            elif wybór == 4:
+                break
+    else:
+        print(t.misc.no_access)      
+
 def main_menu():
     while True:
         print(f'{t.misc.hi} {zalogowany_uzytkownik["nazwa_użytkownika"]}! {t.misc.greeting_menu}')
@@ -219,142 +357,7 @@ def main_menu():
             dogs_reservations_view()
 
         elif choice == 4:
-            
-            with open('magazyn.json', 'r') as file:
-                magazyn = json.load(file)
-
-            if check_access(zalogowany_uzytkownik["rola"], 3):
-                while True:
-                    print(t.management.menu)
-                    wybór = int(input(prompt(t.misc.your_choice)))
-                    if wybór not in [1, 2, 3, 4]:
-                        print(t.misc.no_access)
-                        
-                    elif wybór == 1:
-                        while True:
-                            
-                            print(t.management.menu_for_storage)
-                            opcje = int(input(prompt(t.misc.your_choice)))
-                            if opcje not in [1, 2, 3, 4]:
-                                print(t.misc.no_access)
-                            elif opcje == 1:
-                                rzecz = str(input(prompt(t.management.add_thing_choice)))
-                                if rzecz not in magazyn:
-                                    magazyn_kopia = deepcopy(magazyn)
-                                    magazyn_kopia.append(rzecz)
-                                    with open('magazyn.json', 'w') as file:
-                                        json.dump(magazyn_kopia, file, ensure_ascii=False, indent=4) 
-                                    with open('magazyn.json', 'r') as file:
-                                        magazyn = json.load(file)  
-                                else:
-                                    print(f'{rzecz} {t.management.is_in_storage}')
-                            elif opcje == 2:
-                                rzecz = str(input(prompt(t.management.remove_thing_choice)))
-                                if rzecz in magazyn:
-                                    magazyn_kopia = deepcopy(magazyn)
-                                    magazyn_kopia.remove(rzecz)
-                                    with open('magazyn.json', 'w') as file:
-                                        json.dump(magazyn_kopia, file, ensure_ascii=False, indent=4) 
-                                    with open('magazyn.json', 'r') as file:
-                                        magazyn = json.load(file)
-                                else:
-                                    print(f'{rzecz} {t.management.is_not_in_storage}')
-                            elif opcje == 3:
-                                print(f'{t.management.things_in_storage}: {magazyn}')
-                            elif opcje == 4:
-                                break
-                    
-                    elif wybór == 2:
-                        while True:
-                            
-                            print(t.management.menu_for_emplyees)
-                            opcje = int(input(prompt(t.misc.your_choice)))
-                            if opcje not in [1, 2, 3, 4]:
-                                print(t.misc.no_access)
-                            elif opcje == 1:
-                                for pracownik in pracownicy:
-                                    print(f'\n{t.misc.name}: {pracownik['imię']}, {t.misc.surname}: {pracownik['nazwisko']}')
-                            elif opcje == 2:
-                                for pracownik in pracownicy:
-                                    print(f'\n{t.misc.name}: {pracownik['imię']}, {t.misc.surname}: {pracownik['nazwisko']}, {t.management.seniority}: {pracownik['staż_pracy_(w latach)']}')
-                            elif opcje == 3:
-                                for pracownik in pracownicy:
-                                    print(f'\n{t.misc.name}: {pracownik['imię']}, {t.misc.surname}: {pracownik['nazwisko']}, {t.management.salary}: {pracownik['wynagrodzenie']}')
-                            elif opcje == 4:
-                                break
-                    
-                    elif wybór == 3:
-                        while True:
-                            
-                            print(t.management.menu_for_dogs)
-                            opcje = int(input(prompt(t.misc.your_choice)))
-                            if opcje not in [1, 2, 3, 4]:
-                                print(t.misc.no_access)
-                            elif opcje == 1:
-                                while True:
-                                    imię = str(input(prompt(t.management.add_give_dog_name)))
-                                    if validate_name(imię):
-                                        break
-                                    else:
-                                        print(t.management.name_error)
-                                
-                                while True:
-                                    data_urodzenia = str(input(prompt(t.management.give_birth_date)))
-                                    if validate_birth_date(data_urodzenia):
-                                        break
-                                    else:
-                                        print(t.management.birth_date_error)
-                                
-                                historia_pieska = str(input(prompt(t.management.give_dog_history)))
-                                historia_zdrowotna = str(input(prompt(t.management.give_dog_health_history)))
-                                nowy_piesek = {
-                                    'imię': imię,
-                                    'data_urodzenia': data_urodzenia,
-                                    'historia_pieska': historia_pieska,
-                                    'historia_zdrowotna': historia_zdrowotna,
-                                    'adopcja': 'wolny',
-                                    'daty_i_godziny': []
-                                }
-                                pieski_kopia = deepcopy(pieski)
-                                pieski_kopia.append(nowy_piesek)
-                                with open('pieski.json', 'w') as file:
-                                    json.dump(pieski_kopia, file, ensure_ascii=False, indent=4)
-                                with open('pieski.json', 'r') as file:
-                                    pieski = json.load(file)
-                                print(f'{t.management.dog_done}: {imię}')
-                            elif opcje == 2:
-                                imię = input(prompt(t.management.remove_dog_name))
-                                pieski_kopia = deepcopy(pieski)
-                                pieski_kopia = [piesek for piesek in pieski_kopia if piesek['imię'] != imię]
-                                with open('pieski.json', 'w') as file:
-                                    json.dump(pieski_kopia, file, ensure_ascii=False, indent=4)
-                                with open('pieski.json', 'r') as file:
-                                    pieski = json.load(file)
-                                print(f'{t.management.dog_remove}: {imię}')
-                            elif opcje == 3:
-                                imię = str(input(prompt(t.management.change_adoption_dog_name)))
-                                pieski_kopia = deepcopy(pieski)
-                                for piesek in pieski_kopia:
-                                    if piesek['imię'] == imię:
-                                        print(f'{t.management.current_adoption_state}{piesek['imię']}: {piesek['adopcja']}')
-                                        potwierdzenie = str(input(prompt(t.management.confirmation)))
-                                        if potwierdzenie.lower() == t.misc.yes:
-                                            if piesek['adopcja'] == t.misc.free:
-                                                piesek['adopcja'] = t.misc.reserved
-                                            else:
-                                                piesek['adopcja'] = t.misc.free
-                                            with open('pieski.json', 'w') as file:
-                                                json.dump(pieski_kopia, file, ensure_ascii=False, indent=4)
-                                            with open('pieski.json', 'r') as file:
-                                                pieski = json.load(file)
-                                        print(f'{t.management.after_change_adoption_state}: {piesek['adopcja']}')
-                            elif opcje == 4:
-                                break
-
-                    elif wybór == 4:
-                        break
-            else:
-                print(t.misc.no_access)      
+            management_menu_view()
 
         elif choice == 5:
             print(t.sign.logging_out)
@@ -362,9 +365,6 @@ def main_menu():
 
 
         elif choice == 6:
-            
-            with open('pieski.json', 'w') as file:
-                json.dump(pieski, file, ensure_ascii=False, indent=4)
             sys.exit(t.misc.program_end)
 
 def register_view():
