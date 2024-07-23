@@ -1,3 +1,4 @@
+import os
 import json
 from datetime import datetime, timedelta
 from copy import deepcopy
@@ -18,6 +19,9 @@ with open('uzytkownicy.json', 'r') as file:
 
 def prompt(text):
     return text + ': '
+
+def clear_console():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def validate_name(name):
     return name.isalpha() and len(name) > 0
@@ -62,6 +66,7 @@ def check_access(role, access_level):
 def main_menu():
     global pieski
     while True:
+        
         print(f'{t.misc.hi} {zalogowany_uzytkownik["nazwa_użytkownika"]}! {t.misc.greeting_menu}')
         choice = int(input(prompt(t.misc.your_choice)))
 
@@ -69,12 +74,14 @@ def main_menu():
             print(t.misc.no_access)
 
         elif choice == 1:
+            
             print('\n')
             print(t.contact.address)
             print(t.contact.directory)
             print(t.contact.open_hours)
 
         elif choice == 2:
+            
             for piesek in pieski:
                 print(f'\n{t.misc.name}: {piesek['imię']}')
                 print(f'{t.overview.date_of_birth}: {piesek['data_urodzenia']}')
@@ -83,6 +90,7 @@ def main_menu():
                 print(f'{t.overview.adoption}: {piesek['adopcja']}')
 
         elif choice == 3:
+            
             if check_access(zalogowany_uzytkownik["rola"], 2):
                 imiona = []
                 for piesek in pieski:
@@ -152,6 +160,7 @@ def main_menu():
                 print(t.misc.no_access)            
 
         elif choice == 4:
+            
             with open('magazyn.json', 'r') as file:
                 magazyn = json.load(file)
 
@@ -164,6 +173,7 @@ def main_menu():
                         
                     elif wybór == 1:
                         while True:
+                            
                             print(t.management.menu_for_storage)
                             opcje = int(input(prompt(t.misc.your_choice)))
                             if opcje not in [1, 2, 3, 4]:
@@ -197,6 +207,7 @@ def main_menu():
                     
                     elif wybór == 2:
                         while True:
+                            
                             print(t.management.menu_for_emplyees)
                             opcje = int(input(prompt(t.misc.your_choice)))
                             if opcje not in [1, 2, 3, 4]:
@@ -215,6 +226,7 @@ def main_menu():
                     
                     elif wybór == 3:
                         while True:
+                            
                             print(t.management.menu_for_dogs)
                             opcje = int(input(prompt(t.misc.your_choice)))
                             if opcje not in [1, 2, 3, 4]:
@@ -291,6 +303,7 @@ def main_menu():
 
 
         elif choice == 6:
+            
             with open('pieski.json', 'w') as file:
                 json.dump(pieski, file, ensure_ascii=False, indent=4)
             sys.exit(t.misc.program_end)
@@ -338,11 +351,13 @@ while True:
     else:
         with open('pl.json', 'r') as file:
             t = DotMap(json.load(file))
+    
 
     while True: 
         print(t.sign.login_registration)
         choice = int(input(prompt(t.misc.your_choice)))
         if choice not in [1, 2]:
+            
             print(t.misc.failure_try_again)  
         else:
             break
@@ -351,6 +366,7 @@ while True:
         register()
 
     elif choice == 2:
+        
         nazwa_uzytkownika = str(input(prompt(t.sign.name_of_user)))
         haslo = getpass(prompt(t.sign.password))
 
