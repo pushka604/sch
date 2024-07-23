@@ -238,7 +238,25 @@ def storage_management_menu_view():
 
         elif opcje == 3:
             print(f'{t.management.things_in_storage}: {magazyn}')
-            
+
+        elif opcje == 4:
+            break
+
+def employees_management_menu_view():
+    while True:
+        print(t.management.menu_for_emplyees)
+        opcje = int(input(prompt(t.misc.your_choice)))
+        if opcje not in [1, 2, 3, 4]:
+            print(t.misc.no_access)
+        elif opcje == 1:
+            for pracownik in pracownicy:
+                print(f'\n{t.misc.name}: {pracownik['imię']}, {t.misc.surname}: {pracownik['nazwisko']}')
+        elif opcje == 2:
+            for pracownik in pracownicy:
+                print(f'\n{t.misc.name}: {pracownik['imię']}, {t.misc.surname}: {pracownik['nazwisko']}, {t.management.seniority}: {pracownik['staż_pracy_(w latach)']}')
+        elif opcje == 3:
+            for pracownik in pracownicy:
+                print(f'\n{t.misc.name}: {pracownik['imię']}, {t.misc.surname}: {pracownik['nazwisko']}, {t.management.salary}: {pracownik['wynagrodzenie']}')
         elif opcje == 4:
             break
 
@@ -259,27 +277,10 @@ def management_menu_view():
             storage_management_menu_view()
         
         elif wybór == 2:
-            while True:
-                
-                print(t.management.menu_for_emplyees)
-                opcje = int(input(prompt(t.misc.your_choice)))
-                if opcje not in [1, 2, 3, 4]:
-                    print(t.misc.no_access)
-                elif opcje == 1:
-                    for pracownik in pracownicy:
-                        print(f'\n{t.misc.name}: {pracownik['imię']}, {t.misc.surname}: {pracownik['nazwisko']}')
-                elif opcje == 2:
-                    for pracownik in pracownicy:
-                        print(f'\n{t.misc.name}: {pracownik['imię']}, {t.misc.surname}: {pracownik['nazwisko']}, {t.management.seniority}: {pracownik['staż_pracy_(w latach)']}')
-                elif opcje == 3:
-                    for pracownik in pracownicy:
-                        print(f'\n{t.misc.name}: {pracownik['imię']}, {t.misc.surname}: {pracownik['nazwisko']}, {t.management.salary}: {pracownik['wynagrodzenie']}')
-                elif opcje == 4:
-                    break
+            employees_management_menu_view()
         
         elif wybór == 3:
             while True:
-                
                 print(t.management.menu_for_dogs)
                 opcje = int(input(prompt(t.misc.your_choice)))
                 if opcje not in [1, 2, 3, 4]:
