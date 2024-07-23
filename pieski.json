@@ -12,10 +12,8 @@
         "data_urodzenia": 2013,
         "historia_pieska": "Znaleziony na ulicy",
         "historia_zdrowotna": "Zdrowy",
-        "adopcja": "zarezerwowany",
-        "daty_i_godziny": [
-            "23.23.23/23"
-        ]
+        "adopcja": "wolny",
+        "daty_i_godziny": []
     },
     {
         "imię": "Łatek",
@@ -24,7 +22,7 @@
         "historia_zdrowotna": "Leczenie poparzeń",
         "adopcja": "wolny",
         "daty_i_godziny": [
-            "12.12.12/24"
+            "12.05.2025/12:00"
         ]
     },
     {
