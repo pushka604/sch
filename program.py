@@ -19,45 +19,47 @@ t = {}
 zalogowany_uzytkownik = {}
 
 def main():
-    global zalogowany_uzytkownik
-    choice = int()
     while True:
         choose_language_view()
 
-        choose_login_registration_view(choice)
-            
+        choice = choose_login_registration_view()
+
         if choice == 1:
-            register()
+            register_view()
 
         elif choice == 2:
-            
-            nazwa_uzytkownika = str(input(prompt(t.sign.name_of_user)))
-            haslo = getpass(prompt(t.sign.password))
+            login_view()
 
-            znaleziono = False
-            for uzytkownik in uzytkownicy:
-                if nazwa_uzytkownika == uzytkownik["nazwa_użytkownika"]:
-                    if haslo == uzytkownik["hasło"]:
-                        znaleziono = True
-                        zalogowany_uzytkownik = uzytkownik
-                        break
-            if znaleziono:
-                print(t.sign.signing_in_successful)
-                main_menu()
-            else:
-                print(t.sign.error_name_of_user)
-                kontynuacja = str(input(prompt(t.misc.your_choice)))
-                if kontynuacja.lower() == t.misc.no:
-                    sys.exit(t.misc.program_end)
+def login_view():
+    global zalogowany_uzytkownik
+    nazwa_uzytkownika = str(input(prompt(t.sign.name_of_user)))
+    haslo = getpass(prompt(t.sign.password))
 
-def choose_login_registration_view(choice):
-    while True: 
-            print(t.sign.login_registration)
-            choice = int(input(prompt(t.misc.your_choice)))
-            if choice not in [1, 2]:
-                print(t.misc.failure_try_again)  
-            else:
+    znaleziono = False
+    for uzytkownik in uzytkownicy:
+        if nazwa_uzytkownika == uzytkownik["nazwa_użytkownika"]:
+            if haslo == uzytkownik["hasło"]:
+                znaleziono = True
+                zalogowany_uzytkownik = uzytkownik
                 break
+    if znaleziono:
+        print(t.sign.signing_in_successful)
+        main_menu()
+    else:
+        print(t.sign.error_name_of_user)
+        kontynuacja = str(input(prompt(t.misc.your_choice)))
+        if kontynuacja.lower() == t.misc.no:
+            sys.exit(t.misc.program_end)
+
+def choose_login_registration_view():
+    while True: 
+        print(t.sign.login_registration)
+        choice = int(input(prompt(t.misc.your_choice)))
+        if choice not in [1, 2]:
+            print(t.misc.failure_try_again)  
+        else:
+            return choice
+
 def choose_language_view():
     global t
     print("Wybierz język (pl, eng): ")
@@ -360,7 +362,7 @@ def main_menu():
                 json.dump(pieski, file, ensure_ascii=False, indent=4)
             sys.exit(t.misc.program_end)
 
-def register():
+def register_view():
     print(t.sign.registration)
     while True:
         nazwa_użytkownika = str(input(prompt(t.sign.name_of_user)))
