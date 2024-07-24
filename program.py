@@ -5,6 +5,7 @@ from copy import deepcopy
 from dotmap import DotMap
 import sys
 from getpass import getpass
+import time
 
 with open('pieski.json', 'r') as file:
     pieski = json.load(file)
@@ -27,7 +28,7 @@ def main():
 def login_view():
     global zalogowany_uzytkownik
     nazwa_uzytkownika = str(input(prompt(t.sign.name_of_user)))
-    haslo = getpass(prompt(t.sign.password))
+    haslo =  getpass(prompt(t.sign.password))
 
     znaleziono = False
     for uzytkownik in uzytkownicy:
@@ -37,7 +38,10 @@ def login_view():
                 zalogowany_uzytkownik = uzytkownik
                 break
     if znaleziono:
+        clear_console()
         print(t.sign.signing_in_successful)
+        time.sleep(4)
+        clear_console()
         main_menu()
     else:
         print(t.sign.error_name_of_user)
@@ -122,14 +126,17 @@ def contact_view():
     print(t.contact.address)
     print(t.contact.directory)
     print(t.contact.open_hours)
-
+    input(prompt("\nWpisz 'q', aby wyjść"))
+    
 def dogs_overview_view():
+    clear_console()
     for piesek in pieski:
         print(f'\n{t.misc.name}: {piesek['imię']}')
         print(f'{t.overview.date_of_birth}: {piesek['data_urodzenia']}')
         print(f'{t.overview.dogs_history}: {piesek['historia_pieska']}')
         print(f'{t.overview.health_history}: {piesek['historia_zdrowotna']}')
         print(f'{t.overview.adoption}: {piesek['adopcja']}')   
+    input(prompt("\nWpisz 'q', aby wyjść"))
 
 def reservation_timedate_prompt(wybór_pieska):
     for piesek in pieski:
@@ -198,6 +205,8 @@ def dogs_reservations_view():
     for piesek in pieski:
         imiona.append(piesek['imię'])
 
+    clear_console()
+
     while True:
         print(f'{t.reservation.dog_walking_choice} {imiona}: ')
         wybór_pieska = str(input(prompt(t.misc.your_choice)))
@@ -207,10 +216,14 @@ def dogs_reservations_view():
             continue
         nowa_data_i_godzina = reservation_timedate_prompt(wybór_pieska)
 
+        clear_console()
         if add_reservation(wybór_pieska, nowa_data_i_godzina):
             print(t.reservation.reservation_done)
+            time.sleep(4)
         else:
             print(t.reservation.reservation_failure)
+            time.sleep(4)
+        clear_console()
 
         kontynuacja = input(prompt(t.reservation.continue_question))
         if kontynuacja.lower() != t.misc.yes:
@@ -222,15 +235,20 @@ def add_to_storage_view():
 
     rzecz = str(input(prompt(t.management.add_thing_choice)))
 
+    clear_console()
     if rzecz not in magazyn:
         magazyn_kopia = deepcopy(magazyn)
         magazyn_kopia.append(rzecz)
         with open('magazyn.json', 'w') as file:
             json.dump(magazyn_kopia, file, ensure_ascii=False, indent=4) 
         with open('magazyn.json', 'r') as file:
-            magazyn = json.load(file)  
+            magazyn = json.load(file)
+        print(f"Dodano {rzecz} do magazynu!")
+        time.sleep(4)
     else:
         print(f'{rzecz} {t.management.is_in_storage}')
+        time.sleep(4)
+    clear_console()
 
 def remove_from_storage_view():
     with open('magazyn.json', 'r') as file:
@@ -238,6 +256,7 @@ def remove_from_storage_view():
 
     rzecz = str(input(prompt(t.management.remove_thing_choice)))
 
+    clear_console()
     if rzecz in magazyn:
         magazyn_kopia = deepcopy(magazyn)
         magazyn_kopia.remove(rzecz)
@@ -245,16 +264,22 @@ def remove_from_storage_view():
             json.dump(magazyn_kopia, file, ensure_ascii=False, indent=4) 
         with open('magazyn.json', 'r') as file:
             magazyn = json.load(file)
+        print(f"Usunięto {rzecz} z magazynu!")
+        time.sleep(4)
     else:
         print(f'{rzecz} {t.management.is_not_in_storage}')
+        time.sleep(4)
+    clear_console()
 
 def storage_overview_view():
     with open('magazyn.json', 'r') as file:
         magazyn = json.load(file)
     print(f'{t.management.things_in_storage}: {magazyn}')
+    input(prompt("\nWpisz 'q', aby wyjść"))
     
 def storage_management_menu_view():
     while True:
+        clear_console()
         print(t.management.menu_for_storage)
         opcje = int(input(prompt(t.misc.your_choice)))
 
@@ -262,33 +287,50 @@ def storage_management_menu_view():
             print(t.misc.no_access)
 
         elif opcje == 1:
+            clear_console()
             add_to_storage_view()
 
         elif opcje == 2:
+            clear_console()
             remove_from_storage_view()
 
         elif opcje == 3:
+            clear_console()
             storage_overview_view()
 
         elif opcje == 4:
+            clear_console()
             break
 
 def employees_management_menu_view():
     while True:
+        clear_console()
         print(t.management.menu_for_emplyees)
         opcje = int(input(prompt(t.misc.your_choice)))
+
         if opcje not in [1, 2, 3, 4]:
             print(t.misc.no_access)
+
         elif opcje == 1:
+            clear_console()
             for pracownik in pracownicy:
                 print(f'\n{t.misc.name}: {pracownik['imię']}, {t.misc.surname}: {pracownik['nazwisko']}')
+            input(prompt("\nWpisz 'q', aby wyjść"))
+
         elif opcje == 2:
+            clear_console()
             for pracownik in pracownicy:
                 print(f'\n{t.misc.name}: {pracownik['imię']}, {t.misc.surname}: {pracownik['nazwisko']}, {t.management.seniority}: {pracownik['staż_pracy_(w latach)']}')
+            input(prompt("\nWpisz 'q', aby wyjść"))
+
         elif opcje == 3:
+            clear_console()
             for pracownik in pracownicy:
                 print(f'\n{t.misc.name}: {pracownik['imię']}, {t.misc.surname}: {pracownik['nazwisko']}, {t.management.salary}: {pracownik['wynagrodzenie']}')
+            input(prompt("\nWpisz 'q', aby wyjść"))
+
         elif opcje == 4:
+            clear_console()
             break
 
 def add_dog_view():
@@ -324,7 +366,11 @@ def add_dog_view():
         json.dump(pieski_kopia, file, ensure_ascii=False, indent=4)
     with open('pieski.json', 'r') as file:
         pieski = json.load(file)
+    
+    clear_console()
     print(f'{t.management.dog_done}: {imię}')
+    time.sleep(4)
+    clear_console()
 
 def remove_dog_view():
     global pieski
@@ -336,7 +382,11 @@ def remove_dog_view():
         json.dump(pieski_kopia, file, ensure_ascii=False, indent=4)
     with open('pieski.json', 'r') as file:
         pieski = json.load(file)
+
+    clear_console()
     print(f'{t.management.dog_remove}: {imię}')
+    time.sleep(4)
+    clear_console()
 
 def change_adoption_view():
     global pieski
@@ -345,7 +395,8 @@ def change_adoption_view():
     pieski_kopia = deepcopy(pieski)
     for piesek in pieski_kopia:
         if piesek['imię'] == imię:
-            print(f'{t.management.current_adoption_state}{piesek['imię']}: {piesek['adopcja']}')
+            clear_console()
+            print(f'{t.management.current_adoption_state} {piesek['imię']}: {piesek['adopcja']}')
             potwierdzenie = str(input(prompt(t.management.confirmation)))
             if potwierdzenie.lower() == t.misc.yes:
                 if piesek['adopcja'] == t.misc.free:
@@ -356,25 +407,34 @@ def change_adoption_view():
                     json.dump(pieski_kopia, file, ensure_ascii=False, indent=4)
                 with open('pieski.json', 'r') as file:
                     pieski = json.load(file)
+            
+            clear_console()
             print(f'{t.management.after_change_adoption_state}: {piesek['adopcja']}')
+            time.sleep(4)
+            clear_console()
 
 def dogs_management_menu_view():
     while True:
         print(t.management.menu_for_dogs)
         opcje = int(input(prompt(t.misc.your_choice)))
+
         if opcje not in [1, 2, 3, 4]:
             print(t.misc.no_access)
 
         elif opcje == 1:
+            clear_console()
             add_dog_view()
 
         elif opcje == 2:
+            clear_console()
             remove_dog_view()
 
         elif opcje == 3:
+            clear_console()
             change_adoption_view()
 
         elif opcje == 4:
+            clear_console()
             break
 
 def management_menu_view():
@@ -382,19 +442,23 @@ def management_menu_view():
         print(t.misc.no_access)
         return 
     
+    clear_console()
     while True:
         print(t.management.menu)
         wybór = int(input(prompt(t.misc.your_choice)))
         if wybór not in [1, 2, 3, 4]:
             print(t.misc.no_access)
-                
+        
         elif wybór == 1:
+            clear_console()
             storage_management_menu_view()
         
         elif wybór == 2:
+            clear_console()
             employees_management_menu_view()
         
         elif wybór == 3:
+            clear_console()
             dogs_management_menu_view()
 
         elif wybór == 4:
@@ -402,6 +466,7 @@ def management_menu_view():
     
 def main_menu():
     while True:
+        clear_console()
         print(f'{t.misc.hi} {zalogowany_uzytkownik["nazwa_użytkownika"]}! {t.misc.greeting_menu}')
         choice = int(input(prompt(t.misc.your_choice)))
 
@@ -409,6 +474,7 @@ def main_menu():
             print(t.misc.no_access)
 
         elif choice == 1:
+            clear_console()
             contact_view()
 
         elif choice == 2:
@@ -421,14 +487,19 @@ def main_menu():
             management_menu_view()
 
         elif choice == 5:
+            clear_console()
             print(t.sign.logging_out)
+            time.sleep(4)
+            clear_console()
             return
 
 
         elif choice == 6:
+            clear_console()
             sys.exit(t.misc.program_end)
 
 def register_view():
+    clear_console()
     print(t.sign.registration)
     while True:
         nazwa_użytkownika = str(input(prompt(t.sign.name_of_user)))
@@ -440,7 +511,7 @@ def register_view():
         if validate_password(hasło):
             break
 
-    role = str(input(prompt(t.misc.role))) 
+    role = str(input(prompt(t.misc.give_role))) 
     if role != "gość":
         hasło_zabezpieczające = str(input(prompt(t.sign.give_role_password)))
         if not validate_access(role, hasło_zabezpieczające):
@@ -460,6 +531,9 @@ def register_view():
     with open('uzytkownicy.json', 'w') as file:
         json.dump(uzytkownicy, file, ensure_ascii=False, indent=4)
 
+    clear_console()
     print(t.sign.registration_done)
+    time.sleep(4)
+    clear_console()
 
 main()

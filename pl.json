@@ -12,9 +12,9 @@
         "walking_reservation_failure": "Rezerwacja nieudana! Piesek jest w tym czasie na spacerze."
     },
     "contact": {
-        "address": "Adres schroniska: \n ul. Koszykowa 12 \n 15-003 Białystok \n",
-        "directory": "Nasz zarząd: \n Kierownik schroniska: \n Waldemar Kowalski \n tel.: 566 306 987 \n adres e-mail: waldemar.kowalski@gmail.com \n Zastępca kierownika: \n Barbara Orzechowska \n tel:. 543 567 890 \n adres e-mail: barbara.orzechowska@gmail.com \n Biuro: \n tel.: 540 420 456 \n adres e-mail: schronisko.słoneczko@gmail.com \n",
-        "open_hours": "Godziny otwarcia schroniska: \n poniedziałek: 8:00 - 16: 00 \n wtorek: 8:00 - 16:00 \n środa: 8:00 - 16:00 \n czwartek: 8:00 - 16:00 \n piątek: 8:00 - 16:00 \n sobota: 10:00 - 14:00"
+        "address": "Adres schroniska:\n \nul. Koszykowa 12 \n15-003 Białystok \n",
+        "directory": "Nasz zarząd: \n \nKierownik schroniska:\n \nWaldemar Kowalski \ntel.: 566 306 987 \nadres e-mail: waldemar.kowalski@gmail.com\n \nZastępca kierownika: \n \nBarbara Orzechowska \ntel:. 543 567 890 \nadres e-mail: barbara.orzechowska@gmail.com \n \nBiuro:\n \ntel.: 540 420 456 \nadres e-mail: schronisko.słoneczko@gmail.com \n",
+        "open_hours": "Godziny otwarcia schroniska: \n\nponiedziałek: 8:00 - 16: 00 \nwtorek: 8:00 - 16:00 \nśroda: 8:00 - 16:00 \nczwartek: 8:00 - 16:00 \npiątek: 8:00 - 16:00 \nsobota: 10:00 - 14:00"
     },
     "overview": {
         "date_of_birth": "Data urodzenia",
@@ -36,7 +36,7 @@
         "menu_for_dogs": "Wybierz: \n 1 - Dodaj pieska \n 2 - Usuń pieska \n 3 - Zmień stan adopcji \n 4 - Powrót \n",
         "add_give_dog_name": "Podaj imię pieska",
         "name_error": "Niepoprawne imię. Imię powinno zawierać tylko litery i nie być puste.",
-        "give_birth_date": "'Podaj datę urodzenia pieska",
+        "give_birth_date": "Podaj datę urodzenia pieska",
         "birth_date_error": "Niepoprawna data urodzenia. Data powinna być w formacie dzień.miesiąc.rok i nie być późniejsza niż bieżący rok.",
         "give_dog_history": "Podaj historię pieska",
         "give_dog_health_history": "Podaj historię zdrowotną pieska",
