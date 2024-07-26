@@ -46,7 +46,13 @@
         "change_adoption_dog_name": "Enter the name of the dog whose adoption status you want to change",
         "current_adoption_state": "Current status of the dog",
         "confirmation": "Are you sure you want to change the dog's adoption status? (yes/no)",
-        "after_change_adoption_state": "Dog's status after the change"
+        "after_change_adoption_state": "Dog's status after the change",
+        "added": "Added",
+        "to_storage": "to storage!",
+        "removed": "Removed",
+        "from_storage": "z magazynu!",
+        "no_such_dog_named": "There is no dog with a name",
+        "in_shelter": "in shelter"
     },
     "sign": {
         "logging_out": "Logging out...",
@@ -76,6 +82,7 @@
         "program_end": "Program terminated.",
         "hi": "Hi",
         "registration": "Registration",
-        "failure_try_again": "Attempt failed. Try again."
+        "failure_try_again": "Attempt failed. Try again.",
+        "press_q": "\nEnter 'q' to exit"
     }
 }

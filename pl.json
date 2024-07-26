@@ -46,7 +46,13 @@
         "change_adoption_dog_name": "Podaj imię pieska, którego stan adopcji chcesz zmienić",
         "current_adoption_state": "Obecny status pieska",
         "confirmation": "Czy na pewno chcesz zmienić stan adopcji pieska? (tak/nie)",
-        "after_change_adoption_state": "Stan pieska po zmianie"
+        "after_change_adoption_state": "Stan pieska po zmianie",
+        "added": "Dodano",
+        "to_storage": "do magazynu!",
+        "removed": "Usunięto",
+        "from_storage": "z magazynu!",
+        "no_such_dog_named": "Nie ma pieska o imieniu",
+        "in_shelter": "w schronisku"
     },
     "sign": {
         "logging_out": "Wylogowywanie...",
@@ -76,6 +82,7 @@
         "program_end": "Zakończono działanie programu.",
         "hi": "Cześć",
         "registration": "Rejestracja",
-        "failure_try_again": "Próba nieudana. Spróbuj ponownie."
+        "failure_try_again": "Próba nieudana. Spróbuj ponownie.",
+        "press_q": "\nWpisz 'q', aby wyjść"
     }
 }
