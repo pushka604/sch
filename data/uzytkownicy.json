@@ -38,5 +38,25 @@
         "nazwa_użytkownika": "Dan960!",
         "hasło": "xxyz4567",
         "rola": "gość"
+    },
+    {
+        "nazwa_użytkownika": "RobertMaklowicz",
+        "hasło": "Fiftyone345",
+        "rola": "manager"
+    },
+    {
+        "nazwa_użytkownika": "Rodzina",
+        "hasło": "rooooooooooo",
+        "rola": "gość"
+    },
+    {
+        "nazwa_użytkownika": "Twojstary",
+        "hasło": "twojastara",
+        "rola": "manager"
+    },
+    {
+        "nazwa_użytkownika": "Fiufiufiufiu34",
+        "hasło": "Fefefefefe567",
+        "rola": "gość"
     }
 ]
