@@ -81,7 +81,7 @@ def employees_management_menu_view():
         elif opcje == 1:
             clear_console()
             for pracownik in read_employees():
-                print(f'\n{t.misc.name}: {pracownik['imię']}, {t.misc.surname}: {pracownik['nazwisko']}')
+                print(f'\n{t.misc.name}: {pracownik['name']}, {t.misc.surname}: {pracownik['surname']}')
             input(prompt(t.misc.press_q))
 
         elif opcje == 2:
