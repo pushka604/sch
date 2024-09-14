@@ -1,17 +1,39 @@
-import json
+import mysql.connector
+
+# Definiowanie zmiennej z konfiguracją serwera
+server_config = {
+    "host": "192.168.1.104",  # Use your Windows machine's IP address
+    "user": "root",
+    "password": "",
+    "database": "schronisko"
+}
 
 def read_users():
-    with open('data/uzytkownicy.json', 'r') as file:
-        uzytkownicy = json.load(file)
+    # Użycie konfiguracji serwera do połączenia z bazą danych
+    connection = mysql.connector.connect(**server_config)
 
-    return uzytkownicy
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM users")
+    users = cursor.fetchall()
 
-def create_new_user(nowy_użytkownik):
-    with open('data/uzytkownicy.json', 'r') as file:
-        uzytkownicy = json.load(file)
+    cursor.close()
+    connection.close()
 
-    uzytkownicy.append(nowy_użytkownik)
+    return users
 
-    with open('data/uzytkownicy.json', 'w') as file:
-        json.dump(uzytkownicy, file, ensure_ascii=False, indent=4)
-    return True
+def create_new_user(username, password, role, employee_id=None):
+    
+    connection = mysql.connector.connect(**server_config)
+    cursor = connection.cursor()
+
+    query = 'INSERT INTO users (username, password, role, employee_id) VALUES (%s, %s, %s, %s)'
+    params = (username, password, role, employee_id)
+
+    try:
+        cursor.execute(query, params)
+        connection.commit()
+    except mysql.connector.Error as err:
+        connection.rollback()
+    finally:
+        cursor.close()
+        connection.close()

@@ -8,7 +8,7 @@ from context import t, zalogowany_uzytkownik
 def dogs_reservations_view():
     pieski = read_dogs()
 
-    if not check_access(zalogowany_uzytkownik["rola"], 2):
+    if not check_access(zalogowany_uzytkownik["role"], 2):
         clear_console()
         print(t.misc.no_access)
         time.sleep(4)

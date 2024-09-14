@@ -10,7 +10,7 @@ from context import t, zalogowany_uzytkownik
 def main_menu():
     while True:
         clear_console()
-        print(f'{t.misc.hi} {zalogowany_uzytkownik["nazwa_użytkownika"]}! {t.misc.greeting_menu}')
+        print(f'{t.misc.hi} {zalogowany_uzytkownik["username"]}! {t.misc.greeting_menu}')
         choice = int(input(prompt(t.misc.your_choice)))
 
         if choice not in [1, 2, 3, 4, 5, 6]:

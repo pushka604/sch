@@ -6,7 +6,7 @@ from views.dogs_overview_view import add_dog_view, remove_dog_view, change_adopt
 from context import t, zalogowany_uzytkownik
 
 def management_menu_view():
-    if not check_access(zalogowany_uzytkownik["rola"], 3):
+    if not check_access(zalogowany_uzytkownik["role"], 3):
         clear_console()
         print(t.misc.no_access)
         time.sleep(4)
@@ -87,13 +87,13 @@ def employees_management_menu_view():
         elif opcje == 2:
             clear_console()
             for pracownik in read_employees():
-                print(f'\n{t.misc.name}: {pracownik['imię']}, {t.misc.surname}: {pracownik['nazwisko']}, {t.management.seniority}: {pracownik['staż_pracy_(w latach)']}')
+                print(f'\n{t.misc.name}: {pracownik['name']}, {t.misc.surname}: {pracownik['surname']}, {t.management.seniority}: {pracownik['length_of_service']}')
             input(prompt(t.misc.press_q))
 
         elif opcje == 3:
             clear_console()
             for pracownik in read_employees():
-                print(f'\n{t.misc.name}: {pracownik['imię']}, {t.misc.surname}: {pracownik['nazwisko']}, {t.management.salary}: {pracownik['wynagrodzenie']}')
+                print(f'\n{t.misc.name}: {pracownik['name']}, {t.misc.surname}: {pracownik['surname']}, {t.management.salary}: {pracownik['salary']}')
             input(prompt(t.misc.press_q))
 
         elif opcje == 4:

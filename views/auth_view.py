@@ -36,11 +36,11 @@ def login_view():
     znaleziono = False
 
     for uzytkownik in read_users():
-        if nazwa_uzytkownika == uzytkownik["nazwa_użytkownika"]:
-            if haslo == uzytkownik["hasło"]:
+        if nazwa_uzytkownika == uzytkownik["username"]:
+            if haslo == uzytkownik["password"]:
                 znaleziono = True
-                zalogowany_uzytkownik["nazwa_użytkownika"] = uzytkownik["nazwa_użytkownika"]
-                zalogowany_uzytkownik["rola"] = uzytkownik["rola"]
+                zalogowany_uzytkownik["username"] = uzytkownik["username"]
+                zalogowany_uzytkownik["role"] = uzytkownik["role"]
                 break
 
     if znaleziono:
@@ -75,19 +75,22 @@ def register_view():
         if validate_password(hasło):
             break
 
-    role = str(input(prompt(t.misc.give_role))) 
-    if role != "gość":
+    role = str(input(prompt(t.misc.give_role)))
+    if role == "gość":
+        role = "guest"
+
+    if role != "guest":
         hasło_zabezpieczające = str(input(prompt(t.sign.give_role_password)))
         if not validate_access(role, hasło_zabezpieczające):
             return 
 
     nowy_użytkownik = {
-        "nazwa_użytkownika": nazwa_użytkownika,
-        "hasło": hasło,
-        "rola": role
+        "username": nazwa_użytkownika,
+        "password": hasło,
+        "role": role
     }
 
-    if create_new_user(nowy_użytkownik):
+    if create_new_user(**nowy_użytkownik):
 
         clear_console()
 
