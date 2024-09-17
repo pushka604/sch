@@ -41,9 +41,9 @@
         "give_dog_history": "Podaj historię pieska",
         "give_dog_health_history": "Podaj historię zdrowotną pieska",
         "dog_done": "Dodano pieska",
-        "remove_dog_name": "Podaj imię pieska do usunięcia",
+        "remove_dog_name": "Podaj id pieska do usunięcia",
         "dog_remove": "Usunięto pieska",
-        "change_adoption_dog_name": "Podaj imię pieska, którego stan adopcji chcesz zmienić",
+        "change_adoption_dog_name": "Podaj id pieska, którego stan adopcji chcesz zmienić",
         "current_adoption_state": "Obecny status pieska",
         "confirmation": "Czy na pewno chcesz zmienić stan adopcji pieska? (tak/nie)",
         "after_change_adoption_state": "Stan pieska po zmianie",
@@ -51,7 +51,7 @@
         "to_storage": "do magazynu!",
         "removed": "Usunięto",
         "from_storage": "z magazynu!",
-        "no_such_dog_named": "Nie ma pieska o imieniu",
+        "no_such_dog_named": "Nie ma pieska o id",
         "in_shelter": "w schronisku"
     },
     "sign": {

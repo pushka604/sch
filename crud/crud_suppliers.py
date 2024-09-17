@@ -90,7 +90,7 @@ def delete_supplier(supplier_id):
     try:
         cursor.execute(query, params)
         connection.commit()
-    except mysql.connecot.Error as err:
+    except mysql.connector.Error as err:
         connection.rollback()
     finally:
         cursor.close()

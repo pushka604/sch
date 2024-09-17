@@ -7,7 +7,7 @@ def validate_name(name):
 
 def validate_birth_date(birth_date):
     try:
-        birth_date_datetime = datetime.strptime(birth_date, '%d.%m.%Y')
+        birth_date_datetime = datetime.strptime(birth_date, '%Y')
         return birth_date_datetime <= datetime.now()
     except ValueError:
         return False

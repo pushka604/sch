@@ -41,9 +41,9 @@
         "give_dog_history": "Enter the dog's history",
         "give_dog_health_history": "Enter the dog's health history",
         "dog_done": "Dog added",
-        "remove_dog_name": "Enter the name of the dog to remove",
+        "remove_dog_name": "Enter id of the dog to remove",
         "dog_remove": "Dog removed",
-        "change_adoption_dog_name": "Enter the name of the dog whose adoption status you want to change",
+        "change_adoption_dog_name": "Enter id of the dog whose adoption status you want to change",
         "current_adoption_state": "Current status of the dog",
         "confirmation": "Are you sure you want to change the dog's adoption status? (yes/no)",
         "after_change_adoption_state": "Dog's status after the change",
@@ -51,7 +51,7 @@
         "to_storage": "to storage!",
         "removed": "Removed",
         "from_storage": "z magazynu!",
-        "no_such_dog_named": "There is no dog with a name",
+        "no_such_dog_named": "There is no dog with id",
         "in_shelter": "in shelter"
     },
     "sign": {
