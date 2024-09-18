@@ -1,12 +1,10 @@
 from datetime import datetime, timedelta
-from crud.crud_dogs import read_dogs
 from utils.helpers import check_access, clear_console, prompt
-from crud.crud_dogs import create_reservation
+from crud.crud_reservations import create_reservation, read_reservations
 import time
 from context import t, zalogowany_uzytkownik
 
 def dogs_reservations_view():
-    pieski = read_dogs()
 
     if not check_access(zalogowany_uzytkownik["role"], 2):
         clear_console()
@@ -15,28 +13,17 @@ def dogs_reservations_view():
         clear_console()
         return
 
-    imiona = []
-    for piesek in pieski:
-        imiona.append(piesek['imię'])
-
     clear_console()
 
     while True:
-        print(f'{t.reservation.dog_walking_choice} {imiona}: ')
-        wybór_pieska = str(input(prompt(t.misc.your_choice)))
-        
-        if not wybór_pieska in imiona:
-            clear_console()
-            print(t.reservation.no_such_dog)
-            time.sleep(4)
-            clear_console()
-            continue
+        print(f'{t.reservation.dog_walking_choice}: ')
+        dog_id = str(input(prompt(t.misc.your_choice)))
 
-        nowa_data_i_godzina = reservation_timedate_prompt(wybór_pieska)
+        nowa_data_i_godzina = reservation_timedate_prompt(dog_id)
 
         clear_console()
 
-        if create_reservation(wybór_pieska, nowa_data_i_godzina):
+        if create_reservation(5, dog_id, nowa_data_i_godzina):
             print(t.reservation.reservation_done)
             time.sleep(4)
         else:
@@ -51,10 +38,9 @@ def dogs_reservations_view():
             break
         clear_console()
 
-def reservation_timedate_prompt(wybór_pieska):
-    for piesek in read_dogs():
-        if piesek['imię'] == wybór_pieska:
-            rezerwacje_dt= [datetime.strptime(data_i_godzina, '%d.%m.%Y/%H:%M') for data_i_godzina in piesek['daty_i_godziny']]
+def reservation_timedate_prompt(dog_id):
+    all_reservations = read_reservations(dog_id)
+    dates = [item['date_and_hours'] for item in all_reservations]
 
     while True:
 
@@ -62,16 +48,16 @@ def reservation_timedate_prompt(wybór_pieska):
         godzina = str(input(prompt(t.reservation.time_choice)))
     
         try:
-            nowa_rezerwacja_dt = datetime.strptime(f'{data} {godzina}', '%d.%m.%Y %H:%M')
+            nowa_rezerwacja_dt = datetime.strptime(f'{data} {godzina}', '%Y-%m-%d %H:%M')
 
             wcześniejsze_rezerwacje = []
             późniejsze_rezerwacje = []
 
-            for rezerwacja in rezerwacje_dt:
-                if rezerwacja < nowa_rezerwacja_dt:
-                    wcześniejsze_rezerwacje.append(rezerwacja)
+            for reservation in dates:
+                if reservation < nowa_rezerwacja_dt:
+                    wcześniejsze_rezerwacje.append(reservation)
                 else:
-                    późniejsze_rezerwacje.append(rezerwacja)
+                    późniejsze_rezerwacje.append(reservation)
                     
             if wcześniejsze_rezerwacje and max(wcześniejsze_rezerwacje) + timedelta(minutes=30) > nowa_rezerwacja_dt:
                 print(t.reservation.walking_reservation_failure)
@@ -86,7 +72,7 @@ def reservation_timedate_prompt(wybór_pieska):
                 print(t.reservation.early_date_error)
                 continue
             else:
-                nowa_data_i_godzina = data + '/' + godzina
+                nowa_data_i_godzina = data + ' ' + godzina
                 return nowa_data_i_godzina
 
         except ValueError:

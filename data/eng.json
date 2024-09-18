@@ -1,7 +1,7 @@
 {
     "reservation": {
         "dog_walking_choice": "Which dog would you like to walk?",
-        "date_choice": "Enter the date (day.month.year)",
+        "date_choice": "Enter the date (year-month-day)",
         "time_choice": "Enter the time (hh:mm)",
         "early_date_error": "The provided date and time are earlier than the current date and time. Try again.",
         "invalid_date_format": "Invalid date or time format. Try again.",

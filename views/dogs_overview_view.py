@@ -87,8 +87,8 @@ def dogs_overview_view():
         print(f'{t.misc.name}: {piesek['name']}')
         print(f'{t.overview.date_of_birth}: {piesek['year_of_birth']}')
         print(f'{t.overview.dogs_history}: {piesek['dog_history']}')
-        # print(f'{t.overview.health_history}: {piesek['description']}')
-        # print(f'{t.overview.adoption}: {piesek['adoption']}')
+        print(f'{t.overview.health_history}: {piesek['health_history']}')
+        print(f'{t.overview.adoption}: {piesek['adoption']}')
 
     input(prompt(t.misc.press_q))
 

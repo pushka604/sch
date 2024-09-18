@@ -1,7 +1,7 @@
 {
     "reservation": {
         "dog_walking_choice": "Którego pieska chciałbyś/chciałabyś wyprowadzić?",
-        "date_choice": "Podaj datę (dzień.miesiąc.rok)",
+        "date_choice": "Podaj datę (rok-miesiąc-dzień)",
         "time_choice": "Podaj godzinę (hh:mm)",
         "early_date_error": "Podana data i godzina są wcześniejsze niż obecna data i godzina. Spróbuj ponownie.",
         "invalid_date_format": "Niepoprawny format daty lub godziny. Spróbuj ponownie.",

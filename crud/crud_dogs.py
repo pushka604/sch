@@ -14,6 +14,25 @@ def read_dogs():
     cursor.execute("SELECT dog_id, name, dog_history, year_of_birth FROM dogs")
     dogs = cursor.fetchall()
 
+    for dog in dogs:
+        dog_id = dog["dog_id"]
+        cursor.execute("SELECT * FROM dog_treatments WHERE dog_id = %s", (dog_id,))
+        treatments = cursor.fetchall()
+
+        if treatments:
+            dog["health_history"] = treatments[-1]["description"]
+        else:
+            dog["health_history"] = ""
+        
+        cursor.execute("SELECT * FROM adoption WHERE dog_id = %s", (dog_id,))
+        adoptions = cursor.fetchall()
+
+        if adoptions:
+            dog["adoption"] = "adoptowany"
+        else:
+            dog["adoption"] = "wolny"
+
+
     cursor.close()
     connection.close()
 
@@ -148,7 +167,6 @@ def update_dog(dog_id, name=None, dog_history=None, year_of_birth=None, adopted=
 
     return updated
 
-    
 def read_dog(dog_id):
     connection = mysql.connector.connect(**server_config)
 
@@ -177,21 +195,3 @@ def read_dog(dog_id):
     connection.close()
 
     return dogs
-
-def create_reservation(dog_name, reservation):
-    success = False
-
-    with open('data/pieski.json', 'r') as file:
-        pieski = json.load(file)
-    
-    for piesek in pieski:
-        if piesek['imię'] == dog_name:
-            if reservation not in piesek['daty_i_godziny']:
-                piesek['daty_i_godziny'].append(reservation)
-                success = True
-            break
-    
-    if success:
-        with open('data/pieski.json', 'w') as file:
-            json.dump(pieski, file, ensure_ascii=False, indent=4)
-        return True
