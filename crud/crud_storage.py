@@ -1,40 +1,49 @@
-import json
+import mysql.connector
+
+server_config = {
+    "host": "192.168.1.104",  
+    "user": "root",
+    "password": "",
+    "database": "schronisko"
+}
 
 def read_storage():
-    with open('data/magazyn.json', 'r') as file:
-        magazyn = json.load(file)
+    connection = mysql.connector.connect(**server_config)
+
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute("SELECT item_id, item_name, quantity, category FROM storage")
+    storage = cursor.fetchall()
+
+    return storage
+
+def create_storage_item(item_name):
+    connection = mysql.connector.connect(**server_config)
+    cursor = connection.cursor()
+
+    query = "INSERT INTO storage (item_name, employee_id, supplier_id) VALUES (%s, %s, %s)"
+    params = (item_name, 1, 1)
+
+    try:
+        cursor.execute(query, params)
+        connection.commit()
+        item_id = cursor.lastrowid
+        return item_id
+    except mysql.connector.Error as err:
+        connection.rollback()
     
-    return magazyn
+def delete_storage_item(item_id):
+    connection = mysql.connector.connect(**server_config)
+    cursor = connection.cursor()
 
-def create_storage_item(item):
+    query = "DELETE FROM storage WHERE item_id = %s"
+    params = (item_id,)
 
-    success = False
-
-    with open('data/magazyn.json', 'r') as file:
-        magazyn = json.load(file)
-
-    if item not in magazyn:
-        magazyn.append(item)
+    try:
+        cursor.execute(query, params)
+        connection.commit()
         success = True
-    
-    if success:
-        with open('data/magazyn.json', 'w') as file:
-            json.dump(magazyn, file, ensure_ascii=False, indent=4)
-        return True
-    
-def delete_storage_item(item):
-    success = False
+    except mysql.connector.Error as err:
+        connection.rollback()
 
-    with open('data/magazyn.json', 'r') as file:
-        magazyn = json.load(file)
-
-    if item in magazyn:
-        magazyn.remove(item)
-        success = True
-
-    if success:
-        with open('data/magazyn.json', 'w') as file:
-            json.dump(magazyn, file, ensure_ascii=False, indent=4)
-        return True
-    
+    return success    
 
